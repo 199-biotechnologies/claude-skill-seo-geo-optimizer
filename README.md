@@ -1,484 +1,390 @@
-# SEO/GEO Optimizer - Claude Skill
+# SEO/GEO Optimizer
 
-**Version**: 1.0
-**Status**: Production Ready
-**Last Updated**: November 11, 2025
+Analysis and optimization toolkit for content visibility across search engines, AI platforms, voice assistants, and social media.
 
----
-
-## Overview
-
-A comprehensive Claude skill that analyzes and optimizes content for:
-
-- 🔍 **Traditional SEO** - Meta tags, structured data, technical optimization
-- 🤖 **AI Search (GEO/LLMO)** - ChatGPT, Perplexity, Claude, Gemini citation optimization
-- 🎤 **Voice Search** - Google Assistant, Siri, Alexa optimization
-- 📱 **Social Media Previews** - Open Graph, Twitter Cards, WhatsApp/iMessage
-
-### Key Stats (2025)
-
-- 📈 **527% growth** in AI-referred traffic (Jan-May 2025)
-- 🎯 **40.58%** of AI citations from top 10 SERP results
-- 🏆 **+33%** citation probability for #1 ranking with optimization
-- 🎤 **29 words** average voice search answer length
-- 📱 **1200×630px** optimal social preview image size
+**Status**: Phase 2 Complete (Content Implementation)
+**License**: MIT
+**Repository**: [github.com/199-biotechnologies/claude-skill-seo-geo-optimizer](https://github.com/199-biotechnologies/claude-skill-seo-geo-optimizer)
 
 ---
 
-## Quick Start
+## Purpose
 
-### Installation
+This skill audits and optimizes content for discoverability across:
 
-This skill is already installed at:
-```
-~/.claude/skills/seo-geo-optimizer/
-```
+- **Search engines**: Google, Bing (traditional SEO)
+- **AI platforms**: ChatGPT, Perplexity, Claude, Gemini (GEO/LLMO)
+- **Voice assistants**: Google Assistant, Siri, Alexa
+- **Social media**: Facebook, Twitter, LinkedIn, WhatsApp
 
-### Basic Usage
+Supports HTML, Markdown, and React/JSX files.
 
-**Audit an HTML file:**
+---
+
+## Key Statistics (2025)
+
+AI-referred traffic grew 527% between January and May 2025. Content optimized for AI citation shows 33-40% higher visibility. Key findings:
+
+- 40.58% of AI citations come from top 10 SERP results
+- Content with author credentials: +40% citation probability
+- Featured snippets: 40.7% of voice search answers
+- Statistics addition: +41% citation improvement
+- Freshness (<30 days): 3.2x more citations
+
+---
+
+## Installation
+
+Clone to Claude skills directory:
+
 ```bash
-claude-code "Audit the SEO of ~/project/pages/about.html"
+cd ~/.claude/skills/
+git clone https://github.com/199-biotechnologies/claude-skill-seo-geo-optimizer.git
 ```
 
-**Optimize for AI search:**
+Requirements: Python 3.7+, no external dependencies (stdlib only).
+
+Verify installation:
 ```bash
-claude-code "Optimize this blog post for AI citation: ~/blog/longevity-tips.md"
+python ~/.claude/skills/seo-geo-optimizer/scripts/analyze_content.py --help
 ```
 
-**Generate schema markup:**
+---
+
+## Usage
+
+### Phase 1: Analysis
+
+Audit existing content, generate recommendations:
+
 ```bash
-claude-code "Generate FAQ and Article schema for ~/docs/guide.html"
+# Comprehensive audit with all reports
+python scripts/audit_report.py ~/project/page.html --format all
+
+# Analyze specific aspects
+python scripts/analyze_content.py ~/project/page.html
+python scripts/metadata_validator.py ~/project/page.html
+python scripts/keyword_analyzer.py ~/project/page.html
+python scripts/entity_extractor.py ~/project/page.html
 ```
 
-**Deep analysis with voice search:**
+### Phase 2: Implementation
+
+Apply optimizations automatically:
+
 ```bash
-claude-code "Deep SEO audit with voice optimization: ~/landing-page/index.tsx"
+# Full optimization pipeline for specific platform
+python scripts/auto_implementer.py page.html perplexity
+
+# Individual optimization steps
+python scripts/content_optimizer.py page.html
+python scripts/platform_optimizer.py page.html chatgpt
+python scripts/voice_optimizer.py page.html
+python scripts/freshness_monitor.py page.html
+python scripts/citation_enhancer.py page.html
 ```
+
+### Generate Schema Markup
+
+```bash
+# FAQ schema (highest AI citation probability)
+python scripts/schema_generator.py faq \
+  --question "What is longevity medicine?" \
+  --answer "Longevity medicine optimizes biomarkers like LDL <70 mg/dL to reduce cardiovascular risk by 30-40%."
+
+# Article schema with E-E-A-T signals
+python scripts/schema_generator.py article \
+  --title "Understanding Biomarkers" \
+  --author "Dr. Sarah Johnson" \
+  --credentials "MD, PhD" \
+  --date "2025-01-15"
+```
+
+---
+
+## Architecture
+
+### Phase 1: Analysis (Complete)
+
+Six Python scripts analyze content and generate recommendations:
+
+| Script | Purpose | Output |
+|--------|---------|--------|
+| `analyze_content.py` | Extract metadata, schema, structure | JSON analysis |
+| `metadata_validator.py` | Validate meta tags, OG, Twitter | Validation report |
+| `keyword_analyzer.py` | Extract keywords (5 types) | Keyword list |
+| `entity_extractor.py` | Extract persons, orgs, places | Entity map |
+| `schema_generator.py` | Generate JSON-LD schemas | Schema files |
+| `audit_report.py` | Orchestrate analysis, generate reports | JSON, MD, HTML |
+
+### Phase 2: Implementation (Complete)
+
+Six Python scripts implement optimizations:
+
+| Script | Purpose | Impact |
+|--------|---------|--------|
+| `content_optimizer.py` | Meta descriptions, FAQ, data tables | Structure optimization |
+| `platform_optimizer.py` | ChatGPT, Perplexity, Claude, Gemini | Platform-specific |
+| `voice_optimizer.py` | Speakable schema, featured snippets | Voice search ready |
+| `freshness_monitor.py` | Content age tracking | 3.2x citations when fresh |
+| `citation_enhancer.py` | Statistics, quotation opportunities | +41% and +28% impact |
+| `auto_implementer.py` | Full pipeline orchestration | Complete automation |
+
+### Phase 3: Advanced Features (Planned)
+
+- Competitive analysis (SERP top 10 comparison)
+- Automated monitoring (SQLite time-series tracking)
+- A/B testing framework (statistical significance)
+- Analytics integration (Google Search Console, Plausible)
 
 ---
 
 ## Features
 
-### 1. Content Analysis
+### Content Analysis
 
-**Supports multiple file types:**
-- ✅ HTML files (`.html`)
-- ✅ Markdown files (`.md`, `.mdx`)
-- ✅ React/JSX components (`.jsx`, `.tsx`)
+**File Types**:
+- HTML (`.html`)
+- Markdown (`.md`, `.mdx`)
+- React/JSX (`.jsx`, `.tsx`)
 
-**Extracts:**
+**Extraction**:
 - Meta tags (title, description, keywords)
-- Open Graph tags (og:title, og:description, og:image, etc.)
-- Twitter Cards (twitter:card, twitter:title, etc.)
-- Existing JSON-LD schema markup
-- Content structure (headings, word count, TL;DR, FAQ, author)
-- Heading hierarchy (H1, H2, H3)
+- Open Graph (og:title, og:description, og:image)
+- Twitter Cards (twitter:card, twitter:title)
+- JSON-LD schema markup
+- Content structure (headings, word count, author)
 
-### 2. Keyword Analysis
+### Keyword Analysis
 
-**Extracts 5 types of keywords:**
-- **Primary** - Main topic keywords (H1, meta title, URL, first 100 words)
-- **Semantic** - Related terms (H2/H3, body content)
-- **LSI** - Co-occurring terms (natural language throughout)
-- **Long-tail** - 3-8 word phrases (FAQ, H3 subheadings)
-- **Question** - Who/what/where/when/why/how keywords (FAQ schema)
+Five keyword types extracted:
 
-### 3. Schema Generation
+1. **Primary**: Main topic (H1, meta title, URL, first 100 words)
+2. **Semantic**: Related terms (H2/H3, body)
+3. **LSI**: Co-occurring terms (natural language)
+4. **Long-tail**: 3-8 word phrases (FAQ, H3)
+5. **Question**: Who/what/where/when/why/how (FAQ schema)
 
-**Generates JSON-LD schemas:**
-- **FAQPage** - Highest AI citation probability
-- **Article** - E-E-A-T signals (author credentials, dates)
-- **HowTo** - Voice search optimized
-- **BreadcrumbList** - Site hierarchy
-- **Organization/LocalBusiness** - Entity recognition
-- **Person** - Author profiles
-- **Speakable** - Voice search enhancement
+### Schema Generation
 
-### 4. Platform-Specific Optimization
+JSON-LD schemas with validation:
 
-**ChatGPT** (Depth-focused):
-- E-E-A-T content (Experience, Expertise, Authoritativeness, Trustworthiness)
-- Named authors with credentials (MD, PhD = +40% citation probability)
-- Educational/Wikipedia sources
-- Original research
+- **FAQPage**: Highest AI citation probability
+- **Article**: E-E-A-T signals (credentials, dates)
+- **HowTo**: Voice search optimized (ISO 8601 durations)
+- **BreadcrumbList**: Site hierarchy
+- **Organization/LocalBusiness**: Entity recognition
+- **Person**: Author profiles with credentials
+- **Speakable**: Voice assistant optimization
+
+### Platform Optimization
+
+**ChatGPT** (40-60% of LLM traffic):
+- Authority and credentials (+40% citation boost)
+- 1500-2500 words comprehensive coverage
+- Primary source citations (PubMed, arXiv)
+- Answer-first structure
 
 **Perplexity** (Freshness-focused):
-- Transparent citations
-- Specialized sources
-- Current information (dateModified)
-- Clear URL structure
+- Content updated within 30 days (3.2x citations)
+- Inline citations with [1], [2] format
+- H2→H3→bullets structure (40% more citations)
+- Update frequency: 2-3 days (aggressive) or 90 days (minimum)
 
 **Claude** (Accuracy-focused):
-- Credible sources
-- Clear attribution
-- Depth and accuracy
-- Primary sources
+- Primary sources only (91.2% attribution accuracy)
+- 5-8 citations with publisher and year
+- Transparent methodology
+- Acknowledged limitations
 
 **Gemini** (Community-focused):
-- Google ecosystem integration
-- Community-validated content
+- Google Business Profile integration
+- User reviews and testimonials
+- Local citations (NAP consistency)
 - Traditional authority signals
-- Google My Business optimization
 
-### 5. Voice Search Optimization
+### Voice Search
 
-**Features:**
-- Speakable schema generation
-- 29-word answer optimization
-- FAQ section analysis
-- Featured snippet targeting
-- Long-tail question keywords
+- Featured snippet optimization (30-40 words)
+- Speakable schema (20-30 second segments)
+- FAQ schema (natural language questions)
+- Question keyword extraction
 
-**Stats:**
-- 80%+ of answers from top 3 results
-- 40.7% of voice answers from Featured Snippets
-- 20.5% of people worldwide use voice search
+### Social Media Previews
 
-### 6. Social Media Preview Optimization
-
-**Analyzes and generates:**
 - Open Graph tags (Facebook, LinkedIn, WhatsApp)
 - Twitter Cards (summary, summary_large_image)
-- iMessage optimization (og:title, og:image)
-- Image specifications (1200×630px recommended)
-
-### 7. Multi-Format Reports
-
-**Generates:**
-1. **Markdown report** - Source of truth, comprehensive details
-2. **HTML dashboard** - Visual, browser-friendly, color-coded
-3. **JSON export** - Structured data for automation
-4. **PDF report** (optional) - Professional client-ready format
+- Image specifications (1200×630px optimal)
+- iMessage optimization
 
 ---
 
-## Analysis Modes
-
-### Quick Audit (5-10 minutes)
-- Analyze content + Generate recommendations
-- **Use for**: Rapid assessment, iterative testing
-- **Output**: Markdown report only
-
-### Standard Audit (10-20 minutes) ⭐ RECOMMENDED
-- Full analysis + Keywords + Schema + Validation + Reports
-- **Use for**: Most content audits
-- **Output**: Markdown + HTML reports + Generated schemas
-
-### Deep Audit (20-30 minutes)
-- Comprehensive analysis + Entity mapping + Multi-format reports + PDF
-- **Use for**: Client deliverables, comprehensive optimization
-- **Output**: MD + HTML + JSON + PDF (optional) + All schemas
-
----
-
-## How It Works
-
-### 5-Phase Workflow
-
-```
-Phase 1: Clarify
-  └─ Process user input, identify content type, determine goals
-
-Phase 2: Plan
-  └─ Load reference guides (progressive), plan script execution
-
-Phase 3: Act
-  └─ Execute analysis scripts, extract data, generate schemas
-
-Phase 4: Verify
-  └─ Validate outputs, check quality standards, calculate scores
-
-Phase 5: Report
-  └─ Generate multi-format reports, save to ~/Documents/
-```
-
-### Context Engineering
-
-**Optimized for efficiency:**
-- **Cached context**: 1800 tokens (90% cost reduction after first use)
-- **Progressive disclosure**: Load reference files only when needed
-- **Token budget**: ~7000 tokens per request (avg)
-- **Performance**: 3-5s (cached), 10-15s (cold)
-
----
-
-## Output Structure
+## Output
 
 ### Report Location
+
 ```
 ~/Documents/SEO_Audit_[YYYY-MM-DD]_[HHMM]/
-├── seo_audit_report.md          # Markdown source
-├── seo_audit_dashboard.html     # Visual dashboard (auto-opens)
-├── seo_audit_data.json          # Structured export
-├── generated_schemas/           # Generated JSON-LD files
-│   ├── faq_schema.json
-│   ├── article_schema.json
-│   └── howto_schema.json
-└── seo_audit_report.pdf         # Optional PDF
+├── audit_report.json          # Structured data
+├── audit_report.md            # Markdown report
+├── audit_report.html          # Visual dashboard
+└── generated_schemas/         # JSON-LD files
+    ├── faq_schema.json
+    ├── article_schema.json
+    └── howto_schema.json
 ```
 
-### Report Sections
+### Report Structure
 
-1. **Executive Summary**
-   - Overall SEO score (0-100)
-   - Top 3 wins (what's working)
-   - Top 3 issues (critical fixes)
-
-2. **Detailed Analysis**
-   - Metadata (meta tags, OG, Twitter)
-   - Schema markup (existing + recommendations)
-   - Content structure (headings, TL;DR, FAQ, author)
-   - Keyword analysis (primary, semantic, LSI, long-tail)
-   - AI citation optimization (platform-specific)
-   - Voice search readiness
-   - Social preview quality
-
-3. **Action Items** (Prioritized)
-   - Critical (implement immediately)
-   - High priority (this week)
-   - Medium priority (this month)
-   - Low priority (nice to have)
-
-4. **Generated Assets**
-   - Recommended schema markup (copy-paste ready)
-   - Meta tags template
-   - Optimized content snippets
+1. **Executive Summary**: Overall score (0-100), top issues, top wins
+2. **Metadata Analysis**: Meta tags, Open Graph, Twitter Cards, schema
+3. **Content Structure**: Headings, word count, TL;DR, FAQ, author
+4. **Keyword Analysis**: Primary, semantic, LSI, long-tail, question
+5. **Platform Optimization**: ChatGPT, Perplexity, Claude, Gemini recommendations
+6. **Action Items**: Prioritized by criticality (critical, high, medium, low)
+7. **Generated Assets**: Copy-paste ready schema markup
 
 ---
 
-## Examples
+## Reference Documentation
 
-### Example 1: Blog Post Optimization
+Located in `reference/` directory:
 
-**Request:**
-```bash
-claude-code "Optimize my blog post for AI search: ~/blog/posts/longevity-guide.md"
-```
+- `citation-optimization-guide.md`: AI citation strategies (+35-40% boost)
+- `entity-seo-guide.md`: Knowledge Graph optimization
+- `platform-strategies.md`: Platform-specific tactics
+- `voice-search-guide.md`: Voice assistant optimization (29-word answers)
+- `social-preview-guide.md`: Open Graph, Twitter Cards (1200×630px)
+- `schema-library.md`: Complete JSON-LD reference
 
-**Result:**
-- SEO score: 78/100 (Good)
-- Missing FAQ schema → +35% citation boost
-- Add author credentials → +40% citation boost
-- Generated: Article schema + FAQ schema
-- Output: Markdown + HTML reports
+Templates in `templates/` directory:
 
-### Example 2: Landing Page Audit
+- `meta-tags-template.html`: Complete meta tag set
+- Schema templates: FAQ, Article, HowTo, Breadcrumb, Organization, Person
 
-**Request:**
-```bash
-claude-code "Deep audit of landing page with voice search: ~/app/pages/index.tsx"
-```
+Industry examples in `examples/` directory:
 
-**Result:**
-- SEO score: 85/100 (Excellent)
-- Voice-optimized FAQ present ✓
-- Speakable schema recommended
-- Social previews perfect (OG 1200×630px) ✓
-- Generated: 5 schemas (FAQ, Article, HowTo, Speakable, Organization)
-- Output: MD + HTML + JSON + PDF
-
-### Example 3: Quick Check
-
-**Request:**
-```bash
-claude-code "Quick SEO audit: ~/docs/about.html"
-```
-
-**Result:**
-- SEO score: 72/100
-- Top issue: Missing FAQ schema
-- Top win: Perfect heading hierarchy
-- Output: Markdown report only
+- `medical-clinic/`: Healthcare optimization (15/100 → 92/100)
+- `consulting-firm/`: B2B entity SEO (22/100 → 89/100)
+- `saas-landing-page/`: LLMO optimization (18/100 → 94/100)
 
 ---
 
-## Technical Details
+## Configuration
 
-### Scripts (Python 3.7+)
+### Optimization Profiles
 
-Located in `~/.claude/skills/seo-geo-optimizer/scripts/`:
+Located in `profiles/` directory:
 
-1. **analyze_content.py** - Core analysis engine
-   - Parses HTML, Markdown, React/JSX
-   - Extracts metadata, schema, content structure
-   - Calculates SEO score
+**chatgpt_authority.json**:
+- Target: ChatGPT citation optimization
+- Focus: Authority, credentials, depth
+- Word count: 1500-2500
+- Expected: +40% citation probability
 
-2. **schema_generator.py** - JSON-LD generation
-   - FAQ, Article, HowTo, BreadcrumbList
-   - Organization, Person, Speakable
-   - Valid JSON-LD output
+**perplexity_fresh.json**:
+- Target: Perplexity visibility
+- Focus: Freshness, inline citations
+- Update: Every 2-3 days
+- Expected: 3.2x citations
 
-3. **metadata_validator.py** - Validation
-   - Meta tags (title, description)
-   - Open Graph (og:title, og:image, etc.)
-   - Twitter Cards
-   - Schema completeness
+**multi_platform.json**:
+- Target: Balanced optimization
+- Platforms: ChatGPT, Perplexity, Claude
+- Word count: 1200-2000
+- Update: Monthly
 
-4. **keyword_analyzer.py** - Keyword extraction
-   - Primary, semantic, LSI, long-tail
-   - Question keywords (Who/what/where/when/why/how)
-   - Keyword density calculation
-
-5. **entity_extractor.py** - Entity recognition
-   - People (names, credentials, job titles)
-   - Organizations (company names, types)
-   - Places (locations, service areas)
-   - Relationship mapping
-
-6. **audit_report.py** - Report generation
-   - Markdown (source of truth)
-   - HTML dashboard (visual)
-   - JSON export (automation)
-   - PDF (via generating-pdf skill)
-
-### Reference Guides
-
-Located in `~/.claude/skills/seo-geo-optimizer/reference/`:
-
-- **platform-strategies.md** - ChatGPT, Perplexity, Claude, Gemini
-- **schema-library.md** - All schema types with examples
-- **voice-search-guide.md** - Voice optimization techniques
-- **social-preview-guide.md** - Open Graph, Twitter Cards
-- **citation-optimization-guide.md** - Content structure for AI
-- **entity-seo-guide.md** - Knowledge Graph optimization
-
-### Templates
-
-Located in `~/.claude/skills/seo-geo-optimizer/templates/`:
-
-- **meta-tags-template.html** - Complete meta tags
-- **faq-schema.json** - FAQ JSON-LD template
-- **article-schema.json** - Article with E-E-A-T
-- **howto-schema.json** - HowTo for voice
-- **breadcrumb-schema.json** - Site hierarchy
-- **organization-schema.json** - Entity schema
-- **person-schema.json** - Author profile
-
----
-
-## Integration with Other Skills
-
-### Works With:
-
-**minimalist-website-mvp**
-- Use this skill to audit websites generated by minimalist-website-mvp
-- Complements (doesn't duplicate) built-in SEO features
-- Can invoke minimalist-website-mvp for fixes
-
-**generating-pdf**
-- Automatically invoked for PDF reports (Deep mode)
-- McKinsey-style professional formatting
-- Client-ready deliverables
-
-**deep-research**
-- Similar workflow pattern (Clarify → Plan → Act → Verify → Report)
-- Can analyze research content for SEO optimization
-- Entity extraction works with research synthesis
-
----
-
-## Troubleshooting
-
-### Common Issues
-
-**"Script not found"**
-- **Cause**: Scripts not in correct location
-- **Solution**: Verify `~/.claude/skills/seo-geo-optimizer/scripts/` exists
-
-**"Permission denied"**
-- **Cause**: Scripts not executable
-- **Solution**: Run `chmod +x ~/.claude/skills/seo-geo-optimizer/scripts/*.py`
-
-**"Python version error"**
-- **Cause**: Python <3.7
-- **Solution**: Upgrade to Python 3.7+ or use `python3` command
-
-**"File not found"**
-- **Cause**: Incorrect file path
-- **Solution**: Verify path with `ls` command first
-
-**"Schema validation failed"**
-- **Cause**: Invalid JSON-LD syntax
-- **Solution**: Check generated JSON for missing commas, brackets, quotes
-
-**"Score seems wrong"**
-- **Cause**: Analysis incomplete (Quick mode)
-- **Solution**: Re-run with Standard or Deep mode
-
-**"No recommendations"**
-- **Cause**: Content already optimized
-- **Solution**: Good! Score >90 means excellent SEO
+**voice_optimized.json**:
+- Target: Voice assistants
+- Focus: Featured snippets, FAQ
+- Answer length: 30-40 words
+- Schema: Speakable, FAQPage, HowTo
 
 ---
 
 ## Performance
 
-### Expected Performance (with prompt caching)
+### Script Execution Times
 
-**First request (cold cache)**:
-- Time: 10-15 seconds
-- Cost: ~$0.05
-- Tokens: ~1800 cached + 3000-5000 input + 2000-3000 output
+- `analyze_content.py`: <1 second
+- `metadata_validator.py`: <1 second
+- `keyword_analyzer.py`: <2 seconds
+- `entity_extractor.py`: <1 second
+- `schema_generator.py`: <1 second
+- `audit_report.py`: 3-5 seconds
+- `auto_implementer.py`: 10-15 seconds (full pipeline)
 
-**Subsequent requests (warm cache)**:
-- Time: 3-5 seconds
-- Cost: ~$0.005 (90% reduction)
-- Cache lifetime: 5 minutes (refreshed on use), up to 1 hour
-
-### Optimization Tips
-
-- Use **Quick mode** for iterative testing (fastest)
-- Use **Standard mode** for most audits (good balance) ⭐
-- Use **Deep mode** only when comprehensive analysis needed (slowest but thorough)
-- Reuse skill frequently to benefit from prompt caching
+All scripts: Python stdlib only, no external dependencies, offline operation.
 
 ---
 
-## Roadmap
+## Development Status
 
-### Phase 1 (Months 1-2): Core Functionality ✅ CURRENT
-- Audit existing content
-- Generate schema markup
-- Validate metadata
-- Basic recommendations
+### Phase 1: Core Functionality (Complete)
+- Content analysis and extraction
+- Schema markup generation
+- Metadata validation
+- Keyword and entity extraction
+- Multi-format report generation
 
-### Phase 2 (Months 3-4): AI Optimization
+### Phase 2: AI Optimization (Complete)
 - Content rewriting for AI citation
-- Platform-specific optimization
+- Platform-specific optimization (ChatGPT, Perplexity, Claude, Gemini)
 - Voice search enhancement
-- Entity extraction and mapping
+- Freshness monitoring
+- Citation enhancement (+41% statistics, +28% quotations)
+- Auto-implementation pipeline
 
-### Phase 3 (Months 5-6): Advanced Features
-- Competitive analysis (compare to top 10 results)
-- Automated monitoring (track metrics over time)
-- A/B testing recommendations
-- Integration with analytics tools
+### Phase 3: Advanced Features (Planned)
+- Competitive analysis (SERP top 10 comparison)
+- Automated monitoring (SQLite time-series database)
+- Change detection and alerting (email, webhook, Slack)
+- A/B testing framework (statistical significance testing)
+- Analytics integration (Google Search Console API, Plausible)
+- Unified dashboard (multi-source data visualization)
 
-### Phase 4 (Months 7+): Ecosystem Integration
-- Seamless workflow with minimalist-website-mvp
-- Automatic PDF generation
-- Export to SEO tools (Ahrefs, SEMrush)
+### Phase 4: Ecosystem Integration (Planned)
+- Seamless workflow with minimalist-website-mvp skill
+- Automatic PDF report generation via generating-pdf skill
+- Export to SEO tools (Ahrefs, SEMrush format)
 - API mode for CI/CD pipelines
+- MCP server for persistent multi-site monitoring
 
 ---
 
-## Support
+## Research Foundation
 
-**Documentation**: See `PLAN.md` for comprehensive implementation details
+Based on 2025 analysis:
+- 41M AI search results analyzed
+- 680M citations across platforms
+- 527% AI traffic growth (Jan-May 2025)
 
-**Issues**: Report issues to 199 Biotechnologies
+Key findings implemented:
+- Statistics Addition: +41% improvement (Princeton/Georgia Tech)
+- Quotation Addition: +28% improvement
+- Freshness (<30 days): 3.2x citations (Ahrefs study)
+- Author credentials: +40% citation probability
+- H2→H3→bullets structure: 40% more citations
+- Featured snippets: 40.7% of voice answers
 
-**Updates**: Skill follows semantic versioning (major.minor.patch)
+Platform citation patterns:
+- ChatGPT: Wikipedia (1.3M citations), G2 (196K), Forbes (181K)
+- Perplexity: Update frequency critical (3.2x citations when fresh)
+- Claude: 91.2% correct source attribution (Q2 2025)
+- AI Overviews: 13.14% of queries (March 2025), up from 6.49% (January 2025)
+
+---
+
+## Contributing
+
+This project follows semantic versioning (major.minor.patch).
+
+Report issues: [GitHub Issues](https://github.com/199-biotechnologies/claude-skill-seo-geo-optimizer/issues)
 
 ---
 
 ## License
 
-Internal use - 199 Biotechnologies
+MIT License - See LICENSE file for complete terms.
 
----
-
-**Version**: 1.0
-**Last Updated**: November 11, 2025
-**Maintainer**: 199 Biotechnologies
+Copyright (c) 2025 199 Biotechnologies
