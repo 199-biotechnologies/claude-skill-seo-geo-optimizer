@@ -51,6 +51,22 @@ python scripts/schema_generator.py article \
   --date "2025-01-15"
 ```
 
+### Content Optimization (Phase 2)
+
+```bash
+# Full optimization pipeline for specific platform
+python scripts/auto_implementer.py page.html perplexity
+
+# Optimize content structure (meta description, FAQ, data tables)
+python scripts/content_optimizer.py page.html
+
+# Platform-specific optimization
+python scripts/platform_optimizer.py page.html chatgpt
+
+# Check freshness (3.2x citations for content <30 days old)
+python scripts/freshness_monitor.py page.html
+```
+
 ## Core Operations
 
 ### 1. Metadata Validation
@@ -220,15 +236,23 @@ For detailed guides and templates, see the `reference/` directory:
 
 ## Script Reference
 
-**Analysis**:
+**Phase 1: Analysis**:
 - `analyze_content.py <file>` - Extract metadata, schema, structure
 - `metadata_validator.py <file>` - Validate meta tags, OG, Twitter Cards
 - `keyword_analyzer.py <file>` - Extract keywords
 - `entity_extractor.py <file>` - Extract entities
+- `audit_report.py <file> [options]` - Generate audit reports
+
+**Phase 2: Implementation**:
+- `content_optimizer.py <file>` - Rewrite content (meta description, FAQ, data tables)
+- `platform_optimizer.py <file> <platform>` - Platform-specific (chatgpt, perplexity, claude, gemini)
+- `voice_optimizer.py <file>` - Add voice search optimization (Speakable schema)
+- `freshness_monitor.py <file>` - Check content age, recommend updates
+- `citation_enhancer.py <file>` - Identify citation opportunities (+41% impact)
+- `auto_implementer.py <file> [platform]` - Full optimization pipeline
 
 **Generation**:
 - `schema_generator.py <type> [options]` - Generate JSON-LD schemas
-- `audit_report.py <file> [options]` - Generate audit reports
 
 **Supported Files**: HTML, Markdown, React/JSX
 **Output Formats**: JSON, Markdown, HTML
