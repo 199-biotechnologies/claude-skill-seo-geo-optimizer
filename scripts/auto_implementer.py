@@ -44,12 +44,12 @@ def run_script(script_name: str, args: list) -> dict:
 def auto_optimize(file_path: str, platform: str = 'multi', mode: str = 'full') -> dict:
     """
     Full automated optimization pipeline
-    
+
     Args:
         file_path: HTML file to optimize
-        platform: Target platform (chatgpt, perplexity, claude, gemini, multi)
+        platform: Target platform (chatgpt, perplexity, claude, gemini, grokipedia, multi)
         mode: Optimization mode (quick, full, preview)
-        
+
     Returns:
         Optimization results
     """
@@ -160,10 +160,11 @@ def main():
     """CLI interface"""
     if len(sys.argv) < 2:
         print("Usage: python auto_implementer.py <file> [platform] [mode]")
-        print("\nPlatforms: chatgpt, perplexity, claude, gemini, multi (default)")
+        print("\nPlatforms: chatgpt, perplexity, claude, gemini, grokipedia, multi (default)")
         print("Modes: quick, full (default), preview")
         print("\nExample:")
         print("  python auto_implementer.py page.html perplexity full")
+        print("  python auto_implementer.py page.html grokipedia full")
         sys.exit(1)
     
     file_path = sys.argv[1]

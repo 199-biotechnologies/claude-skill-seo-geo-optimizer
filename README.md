@@ -297,7 +297,7 @@ Located in `profiles/` directory:
 
 **multi_platform.json**:
 - Target: Balanced optimization
-- Platforms: ChatGPT, Perplexity, Claude
+- Platforms: ChatGPT, Perplexity, Claude, Gemini, Grokipedia
 - Word count: 1200-2000
 - Update: Monthly
 
