@@ -247,19 +247,89 @@ Social media previews (link cards) appear when URLs are shared across platforms.
 ### Instagram
 
 **Behavior**:
-- Link previews in Stories (with link sticker)
-- No automatic preview in posts
-- Uses Open Graph tags in Stories
+- Limited Open Graph support (Stories only)
+- No clickable links in captions
+- Bio link is primary external link
+- Uses Open Graph for link stickers in Stories
+- No automatic previews in Feed posts
+- Link-in-bio tools required for multiple links
 
-**Image Specifications**:
-- **Stories**: 1080×1920px (9:16 vertical)
-- **Link preview**: Uses og:image (1200×630px)
+**Important Limitations**:
+- Instagram does NOT support OG previews in feed posts
+- Captions cannot contain clickable links
+- Only verified accounts (10K+ followers) get swipe-up Stories
+- Bio limited to 150 characters + 1 link
+
+**Image Specifications (2025)**:
+
+| Format | Dimensions | Aspect Ratio | Use Case |
+|--------|-----------|--------------|----------|
+| **Stories** | 1080×1920px | 9:16 (vertical) | Full-screen mobile |
+| **Feed Post** | 1080×1350px | 4:5 (portrait) | Primary feed format |
+| **Grid Preview** | 1080×1440px | 3:4 (portrait) | 2025 grid update |
+| **Link Preview** | 1200×630px | 1.91:1 (landscape) | External link stickers |
+| **Reels** | 1080×1920px | 9:16 (vertical) | Video format |
+
+**Stories Safe Zone**:
+- **Full canvas**: 1080×1920px
+- **Safe area**: 1080×1610px (center)
+- **Avoid areas**: Top 155px (profile), bottom 155px (reply bar)
+
+**Open Graph Tags for Instagram Stories**:
+```html
+<!-- Instagram uses standard OG tags for link stickers -->
+<meta property="og:title" content="Page Title (60-90 chars)">
+<meta property="og:description" content="Description (150-200 chars)">
+<meta property="og:image" content="https://example.com/image-1200x630.jpg">
+<meta property="og:url" content="https://example.com/page">
+<meta property="og:type" content="website">
+```
+
+**Bio Link Optimization**:
+- **URL shorteners**: Use branded short links (bit.ly, Linktree)
+- **UTM tracking**: Track Instagram traffic separately
+- **Mobile-first**: 85%+ of Instagram users are mobile
+- **Landing page**: Optimize for mobile (fast load, touch targets)
+
+**Meta Tags for Bio Link Pages**:
+```html
+<!-- Optimize destination pages for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Company Name | Key Offering">
+<meta property="og:description" content="Mobile-friendly description">
+<meta property="og:image" content="https://example.com/mobile-optimized.jpg">
+
+<!-- Instagram-specific metadata (for external tools) -->
+<meta name="instagram:profile" content="@yourusername">
+```
+
+**Link-in-Bio Tools** (Multiple Links):
+- Linktree, Later, Shorby, Pallyy
+- Milkshake, Lnk.Bio, Sked Link
+- Built-in Instagram (max 5 links)
+
+**2025 Grid Changes**:
+- **Old format**: 1:1 square preview
+- **New format**: 3:4 portrait preview (taller)
+- **Strategy**: Center important content in center square
+- **Maximum dimensions**: 1080×1350px (4:5 ratio)
 
 **Best Practices**:
-- Optimize for mobile viewing
-- Use vertical images for Stories
-- Horizontal for link previews
-- Ensure branding is visible
+- **Mobile-first**: 85%+ mobile users, optimize page speed
+- **Stories**: Use 9:16 vertical format, keep text in safe zone
+- **Feed**: Use 4:5 portrait (1080×1350px) for maximum visibility
+- **Grid**: Center key elements in 1:1 square for mixed feeds
+- **Bio link**: Use link aggregators for multiple destinations
+- **Tracking**: Use UTM parameters to measure Instagram traffic
+- **Open Graph**: Required for Stories link stickers
+- **Image quality**: High resolution (Instagram compresses heavily)
+
+**Testing Instagram Previews**:
+- No official Instagram validator
+- Test Stories manually (share to yourself)
+- Use OpenGraph.xyz for OG tag validation
+- Test bio link on mobile device
+- Check page load speed (<3 seconds on 4G)
 
 ### Slack
 
@@ -318,7 +388,10 @@ Social media previews (link cards) appear when URLs are shared across platforms.
 | LinkedIn | 1200×627px | 1.91:1 | Strict minimum |
 | WhatsApp | 1200×630px | 1.91:1 | Same as Facebook |
 | iMessage | 1200×630px | 1.91:1 | Small display |
-| Instagram Stories | 1080×1920px | 9:16 | Vertical only |
+| Instagram Stories | 1080×1920px | 9:16 | Vertical full-screen |
+| Instagram Feed | 1080×1350px | 4:5 | Primary feed format |
+| Instagram Grid | 1080×1440px | 3:4 | 2025 grid update |
+| Instagram Link | 1200×630px | 1.91:1 | Link sticker preview |
 
 ### File Optimization
 

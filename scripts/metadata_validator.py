@@ -147,9 +147,10 @@ def validate_open_graph(og: Dict) -> Dict:
             issues.append("og:image must be absolute URL (https://example.com/image.jpg)")
             score -= 15
         recommendations.append("✅ og:image present")
-        recommendations.append("Verify image is 1200×630px for optimal display")
+        recommendations.append("Verify image is 1200×630px for optimal display (Facebook, LinkedIn, WhatsApp)")
+        recommendations.append("Instagram: OG tags only work in Stories link stickers (not feed posts)")
     else:
-        issues.append("CRITICAL: Missing og:image (no Facebook/LinkedIn/WhatsApp preview)")
+        issues.append("CRITICAL: Missing og:image (no Facebook/LinkedIn/WhatsApp/Instagram Stories preview)")
         score -= 30
 
     # Validate og:url

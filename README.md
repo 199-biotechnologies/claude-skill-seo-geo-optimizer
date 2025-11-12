@@ -13,9 +13,9 @@ Analysis and optimization toolkit for content visibility across search engines, 
 This skill audits and optimizes content for discoverability across:
 
 - **Search engines**: Google, Bing (traditional SEO)
-- **AI platforms**: ChatGPT, Perplexity, Claude, Gemini (GEO/LLMO)
+- **AI platforms**: ChatGPT, Perplexity, Claude, Gemini, Grokipedia (GEO/LLMO)
 - **Voice assistants**: Google Assistant, Siri, Alexa
-- **Social media**: Facebook, Twitter, LinkedIn, WhatsApp
+- **Social media**: Facebook, Twitter, LinkedIn, WhatsApp, Instagram
 
 Supports HTML, Markdown, and React/JSX files.
 
@@ -203,6 +203,12 @@ JSON-LD schemas with validation:
 - Local citations (NAP consistency)
 - Traditional authority signals
 
+**Grokipedia** (xAI, launched Oct 2025):
+- RAG-based citations (20-30% better factual consistency)
+- Transparent version history and licensing
+- Primary source attribution (publisher + year)
+- Wikipedia-derived content requires CC-BY-SA attribution
+
 ### Voice Search
 
 - Featured snippet optimization (30-40 words)
@@ -212,9 +218,10 @@ JSON-LD schemas with validation:
 
 ### Social Media Previews
 
-- Open Graph tags (Facebook, LinkedIn, WhatsApp)
+- Open Graph tags (Facebook, LinkedIn, WhatsApp, Instagram Stories)
 - Twitter Cards (summary, summary_large_image)
-- Image specifications (1200×630px optimal)
+- Image specifications (1200×630px optimal, 1080×1920px for Instagram Stories)
+- Instagram: Limited OG support (Stories only), bio link optimization, 85%+ mobile users
 - iMessage optimization
 
 ---

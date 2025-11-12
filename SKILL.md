@@ -1,6 +1,6 @@
 ---
 name: seo-geo-optimizer
-description: Comprehensive SEO/GEO analysis toolkit for optimizing content visibility across traditional search engines (Google, Bing), AI platforms (ChatGPT, Perplexity, Claude, Gemini), voice assistants (Google Assistant, Siri, Alexa), and social media (Facebook, Twitter, LinkedIn, WhatsApp). Analyzes HTML/Markdown/JSX files for metadata completeness, schema markup, keyword optimization, entity extraction, and generates multi-format audit reports with platform-specific recommendations.
+description: Comprehensive SEO/GEO analysis toolkit for optimizing content visibility across traditional search engines (Google, Bing), AI platforms (ChatGPT, Perplexity, Claude, Gemini, Grokipedia), voice assistants (Google Assistant, Siri, Alexa), and social media (Facebook, Twitter, LinkedIn, WhatsApp, Instagram). Analyzes HTML/Markdown/JSX files for metadata completeness, schema markup, keyword optimization, entity extraction, and generates multi-format audit reports with platform-specific recommendations.
 license: MIT. Complete terms in LICENSE
 ---
 
@@ -151,6 +151,12 @@ python scripts/schema_generator.py faq \
 - Local citations (NAP consistency)
 - Traditional authority signals
 
+### Grokipedia (xAI, Transparency & RAG)
+- RAG-based citations (20-30% better factual consistency)
+- Transparent version history and licensing
+- Primary source attribution (publisher + year)
+- Wikipedia-derived content requires CC-BY-SA attribution
+
 ## AI Citation Optimization
 
 ### TL;DR Strategy (+35% Citation Boost)
@@ -245,7 +251,7 @@ For detailed guides and templates, see the `reference/` directory:
 
 **Phase 2: Implementation**:
 - `content_optimizer.py <file>` - Rewrite content (meta description, FAQ, data tables)
-- `platform_optimizer.py <file> <platform>` - Platform-specific (chatgpt, perplexity, claude, gemini)
+- `platform_optimizer.py <file> <platform>` - Platform-specific (chatgpt, perplexity, claude, gemini, grokipedia)
 - `voice_optimizer.py <file>` - Add voice search optimization (Speakable schema)
 - `freshness_monitor.py <file>` - Check content age, recommend updates
 - `citation_enhancer.py <file>` - Identify citation opportunities (+41% impact)
@@ -272,7 +278,8 @@ For detailed guides and templates, see the `reference/` directory:
 - 80% of voice answers from top 3 results
 
 **Social Media**:
-- 1200×630px standard across platforms
+- 1200×630px standard across platforms (Facebook, LinkedIn, WhatsApp)
+- Instagram: 1080×1920px for Stories, 1080×1350px for Feed, bio link optimization
 - 3x engagement with proper previews
 - +250% WhatsApp/iMessage share rate with og:image
 

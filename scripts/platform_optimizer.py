@@ -224,24 +224,24 @@ def optimize_for_claude(html_content: str, config: Dict) -> tuple[str, List[str]
 def optimize_for_gemini(html_content: str, config: Dict) -> tuple[str, List[str]]:
     """
     Gemini optimization: Community validation, Google ecosystem
-    
+
     Preferences:
     - User reviews/testimonials
     - Google Business Profile integration
     - Local citations (NAP consistency)
     - Community validation signals
     - Traditional authority signals (awards, press)
-    
+
     Args:
         html_content: HTML content
         config: Platform configuration
-        
+
     Returns:
         (optimized_html, changes_list)
     """
     changes = []
     optimized = html_content
-    
+
     # 1. Add testimonials section if provided
     if config.get('testimonials') and 'Testimonials' not in optimized:
         testimonials = '\n<h2>What Our Clients Say</h2>\n'
@@ -250,14 +250,14 @@ def optimize_for_gemini(html_content: str, config: Dict) -> tuple[str, List[str]
             testimonials += f'  <p>"{t.get("text", "")}"</p>\n'
             testimonials += f'  <footer>— {t.get("name", "Client")}</footer>\n'
             testimonials += f'</blockquote>\n\n'
-        
+
         # Insert before contact section or before closing body
         if '<h2>Contact</h2>' in optimized:
             optimized = optimized.replace('<h2>Contact</h2>', f'{testimonials}<h2>Contact</h2>')
         else:
             optimized = optimized.replace('</body>', f'{testimonials}</body>')
         changes.append(f"Added testimonials section ({len(config['testimonials'])} reviews)")
-    
+
     # 2. Ensure NAP (Name, Address, Phone) consistency
     if config.get('business_info'):
         # Add Organization schema for GMB
@@ -274,53 +274,150 @@ def optimize_for_gemini(html_content: str, config: Dict) -> tuple[str, List[str]
             },
             "telephone": config['business_info'].get('phone', '')
         }
-        
+
         schema_tag = f'\n<script type="application/ld+json">\n{json.dumps(org_schema, indent=2)}\n</script>\n'
-        
+
         if '</head>' in optimized and 'LocalBusiness' not in optimized:
             optimized = optimized.replace('</head>', f'{schema_tag}</head>')
             changes.append("Added LocalBusiness schema for Google Business Profile")
-    
+
     # 3. Add awards/recognition if provided
     if config.get('awards') and 'Awards' not in optimized:
         awards = '\n<h2>Awards & Recognition</h2>\n<ul>\n'
         for award in config['awards'][:5]:
             awards += f'  <li>{award}</li>\n'
         awards += '</ul>\n\n'
-        
+
         optimized = optimized.replace('</body>', f'{awards}</body>')
         changes.append(f"Added Awards & Recognition ({len(config['awards'])} awards)")
-    
+
+    return optimized, changes
+
+def optimize_for_grokipedia(html_content: str, config: Dict) -> tuple[str, List[str]]:
+    """
+    Grokipedia optimization: RAG-based citation, primary sources, transparency
+
+    Launched: October 27, 2025 by xAI
+    Citations: 885K articles, uses Wikipedia + RAG (Retrieval-Augmented Generation)
+
+    Preferences:
+    - Primary source citations (clear sourcing)
+    - Consistent attribution and licensing
+    - Transparent update history (versioning, changelog)
+    - Stable technical accessibility
+    - Factual accuracy with verifiable data
+    - 20-30% better factual consistency with RAG
+
+    Args:
+        html_content: HTML content
+        config: Platform configuration
+
+    Returns:
+        (optimized_html, changes_list)
+    """
+    changes = []
+    optimized = html_content
+
+    # 1. Add clear source attribution (critical for RAG retrieval)
+    if config.get('primary_sources') and 'Primary Sources' not in optimized:
+        sources = '\n<h2>Primary Sources</h2>\n<ul class="primary-sources">\n'
+        for source in config['primary_sources'][:5]:
+            sources += f'  <li><a href="{source.get("url", "#")}" rel="nofollow">'
+            sources += f'{source.get("title", "Source")}</a> — {source.get("publisher", "")}'
+            if source.get('year'):
+                sources += f' ({source.get("year")})'
+            sources += '</li>\n'
+        sources += '</ul>\n\n'
+
+        # Insert before References or before closing body
+        if '<h2>References</h2>' in optimized:
+            optimized = optimized.replace('<h2>References</h2>', f'{sources}<h2>References</h2>')
+        else:
+            optimized = optimized.replace('</body>', f'{sources}</body>')
+        changes.append(f"Added Primary Sources section ({len(config['primary_sources'])} sources)")
+
+    # 2. Add version/update history (transparency signal)
+    if config.get('add_version_history') and 'Version History' not in optimized:
+        today_iso = datetime.now().isoformat()
+        today_display = datetime.now().strftime('%B %d, %Y')
+
+        history = '\n<h2>Version History</h2>\n<ul class="version-history">\n'
+        history += f'  <li><strong>v1.0</strong> — {today_display}: Initial publication</li>\n'
+        history += '</ul>\n\n'
+
+        optimized = optimized.replace('</body>', f'{history}</body>')
+        changes.append("Added Version History section")
+
+    # 3. Ensure license/attribution clarity (CC-BY-SA if Wikipedia-derived)
+    if config.get('wikipedia_derived') and 'license' not in optimized.lower():
+        license_notice = '\n<footer class="license">\n'
+        license_notice += '  <p><small>Portions of this content are derived from Wikipedia, '
+        license_notice += 'licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" '
+        license_notice += 'rel="license">CC BY-SA 4.0</a>.</small></p>\n'
+        license_notice += '</footer>\n\n'
+
+        optimized = optimized.replace('</body>', f'{license_notice}</body>')
+        changes.append("Added CC-BY-SA license attribution")
+
+    # 4. Add structured changelog schema (machine-readable versioning)
+    if config.get('add_changelog_schema'):
+        changelog_schema = {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": config.get('title', 'Article'),
+            "datePublished": datetime.now().isoformat(),
+            "dateModified": datetime.now().isoformat(),
+            "version": "1.0",
+            "isBasedOn": config.get('source_url', '') if config.get('wikipedia_derived') else None
+        }
+
+        # Remove None values
+        changelog_schema = {k: v for k, v in changelog_schema.items() if v is not None}
+
+        schema_tag = f'\n<script type="application/ld+json">\n{json.dumps(changelog_schema, indent=2)}\n</script>\n'
+
+        if '</head>' in optimized and '"version"' not in optimized:
+            optimized = optimized.replace('</head>', f'{schema_tag}</head>')
+            changes.append("Added versioned Article schema for changelog tracking")
+
+    # 5. Ensure inline citations with clear links (RAG retrieval benefit)
+    if config.get('enhance_inline_citations'):
+        # Check for citation opportunities
+        stat_count = len(re.findall(r'\d+%|\d+x|[\d,]+\s+(patients|users|studies)', optimized))
+        if stat_count > 0:
+            changes.append(f"Found {stat_count} statistics that should have inline citations [1], [2]")
+
     return optimized, changes
 
 def optimize_multi_platform(html_content: str, platforms: List[str], config: Dict) -> tuple[str, List[str]]:
     """
     Apply optimizations for multiple platforms with conflict resolution
-    
+
     Args:
         html_content: HTML content
-        platforms: List of platforms ['chatgpt', 'perplexity', 'claude', 'gemini']
+        platforms: List of platforms ['chatgpt', 'perplexity', 'claude', 'gemini', 'grokipedia']
         config: Configuration
-        
+
     Returns:
         (optimized_html, combined_changes_list)
     """
     optimized = html_content
     all_changes = []
-    
+
     # Apply optimizations in priority order
     platform_funcs = {
         'chatgpt': optimize_for_chatgpt,
         'perplexity': optimize_for_perplexity,
         'claude': optimize_for_claude,
-        'gemini': optimize_for_gemini
+        'gemini': optimize_for_gemini,
+        'grokipedia': optimize_for_grokipedia
     }
-    
+
     for platform in platforms:
         if platform in platform_funcs:
             optimized, changes = platform_funcs[platform](optimized, config)
             all_changes.extend([f"[{platform.upper()}] {c}" for c in changes])
-    
+
     return optimized, all_changes
 
 def main():
@@ -332,9 +429,11 @@ def main():
         print("  perplexity - Freshness, inline citations (3.2x citations if fresh)")
         print("  claude     - Primary sources, methodology")
         print("  gemini     - Community validation, Google ecosystem")
+        print("  grokipedia - RAG-based citations, transparency, versioning (xAI, Oct 2025)")
         print("  multi      - Optimize for all platforms")
         print("\nExample:")
         print("  python platform_optimizer.py page.html perplexity")
+        print("  python platform_optimizer.py page.html grokipedia")
         sys.exit(1)
     
     file_path = sys.argv[1]
@@ -367,7 +466,7 @@ def main():
     if platform == 'multi':
         optimized, changes = optimize_multi_platform(
             html_content,
-            ['chatgpt', 'perplexity', 'claude', 'gemini'],
+            ['chatgpt', 'perplexity', 'claude', 'gemini', 'grokipedia'],
             config
         )
     elif platform == 'chatgpt':
@@ -378,6 +477,8 @@ def main():
         optimized, changes = optimize_for_claude(html_content, config)
     elif platform == 'gemini':
         optimized, changes = optimize_for_gemini(html_content, config)
+    elif platform == 'grokipedia':
+        optimized, changes = optimize_for_grokipedia(html_content, config)
     else:
         print(f"Unknown platform: {platform}")
         sys.exit(1)
