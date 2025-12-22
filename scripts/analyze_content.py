@@ -23,6 +23,11 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from html.parser import HTMLParser
 
+# Import shared utilities
+script_dir = Path(__file__).parent
+sys.path.insert(0, str(script_dir))
+from shared import has_schema_type, PATTERNS, LIMITS, SCORES
+
 
 class MetaTagsParser(HTMLParser):
     """HTML parser to extract meta tags"""
@@ -126,7 +131,7 @@ def extract_html_content(html: str) -> Dict:
     has_author = bool(re.search(r'(?:author|by\s+[A-Z]|written\s+by)', html, re.IGNORECASE))
 
     # Check for credentials (MD, PhD, etc.)
-    has_credentials = bool(re.search(r'\b(MD|PhD|Ph\.D\.|M\.D\.|MBA|MSc|MPH|DDS|JD|RN)\b', html))
+    has_credentials = bool(PATTERNS['credentials'].search(html))
 
     return {
         'word_count': len(words),
@@ -240,7 +245,7 @@ def analyze_markdown_file(file_path: str) -> Dict:
     )
 
     # Check for credentials
-    has_credentials = bool(re.search(r'\b(MD|PhD|Ph\.D\.|M\.D\.|MBA|MSc|MPH|DDS|JD|RN)\b', body))
+    has_credentials = bool(PATTERNS['credentials'].search(body))
 
     first_150_words = ' '.join(words[:150])
     first_60_words = ' '.join(words[:60])
@@ -334,7 +339,7 @@ def analyze_jsx_file(file_path: str) -> Dict:
     has_tldr = bool(re.search(r'TL;?DR:?\s*', jsx_content, re.IGNORECASE))
     has_faq = bool(re.search(r'FAQ|Frequently Asked Questions', jsx_content, re.IGNORECASE))
     has_author = bool(re.search(r'author|by\s+[A-Z]', jsx_content, re.IGNORECASE))
-    has_credentials = bool(re.search(r'\b(MD|PhD|Ph\.D\.|M\.D\.|MBA|MSc|MPH|DDS|JD|RN)\b', jsx_content))
+    has_credentials = bool(PATTERNS['credentials'].search(jsx_content))
 
     first_150_words = ' '.join(words[:150])
     first_60_words = ' '.join(words[:60])
@@ -421,16 +426,8 @@ def validate_metadata(analysis: Dict) -> List[str]:
         issues.append("Missing twitter:image (no preview image on Twitter/X)")
 
     # Schema checks
-    has_faq_schema = any(
-        (isinstance(s, dict) and s.get('@type') == 'FAQPage') or
-        (isinstance(s, list) and any(item.get('@type') == 'FAQPage' for item in s if isinstance(item, dict)))
-        for s in schemas
-    )
-    has_article_schema = any(
-        (isinstance(s, dict) and s.get('@type') == 'Article') or
-        (isinstance(s, list) and any(item.get('@type') == 'Article' for item in s if isinstance(item, dict)))
-        for s in schemas
-    )
+    has_faq_schema = has_schema_type(schemas, 'FAQPage')
+    has_article_schema = has_schema_type(schemas, 'Article')
 
     if not has_faq_schema and content['has_faq']:
         issues.append("Missing FAQ schema (highest AI citation probability for FAQ content)")
@@ -469,20 +466,10 @@ def generate_recommendations(analysis: Dict) -> List[str]:
     if not content['has_tldr']:
         recommendations.append("Add TL;DR in first 40-60 words (35% citation boost for ChatGPT/Perplexity)")
 
-    has_faq_schema = any(
-        (isinstance(s, dict) and s.get('@type') == 'FAQPage') or
-        (isinstance(s, list) and any(item.get('@type') == 'FAQPage' for item in s if isinstance(item, dict)))
-        for s in schemas
-    )
-    if not has_faq_schema:
+    if not has_schema_type(schemas, 'FAQPage'):
         recommendations.append("Add FAQ schema (highest LLM citation probability - use schema_generator.py)")
 
-    has_article_schema = any(
-        (isinstance(s, dict) and s.get('@type') == 'Article') or
-        (isinstance(s, list) and any(item.get('@type') == 'Article' for item in s if isinstance(item, dict)))
-        for s in schemas
-    )
-    if not has_article_schema:
+    if not has_schema_type(schemas, 'Article'):
         recommendations.append("Add Article schema with author credentials (40% citation boost)")
 
     # Voice search optimization
@@ -549,21 +536,11 @@ def calculate_seo_score(analysis: Dict) -> int:
         score += 5
 
     # Bonus for schema markup
-    has_faq_schema = any(
-        (isinstance(s, dict) and s.get('@type') == 'FAQPage') or
-        (isinstance(s, list) and any(item.get('@type') == 'FAQPage' for item in s if isinstance(item, dict)))
-        for s in schemas
-    )
-    if has_faq_schema:
-        score += 10
+    if has_schema_type(schemas, 'FAQPage'):
+        score += SCORES['bonuses']['faq_schema']
 
-    has_article_schema = any(
-        (isinstance(s, dict) and s.get('@type') == 'Article') or
-        (isinstance(s, list) and any(item.get('@type') == 'Article' for item in s if isinstance(item, dict)))
-        for s in schemas
-    )
-    if has_article_schema:
-        score += 10
+    if has_schema_type(schemas, 'Article'):
+        score += SCORES['bonuses']['article_schema']
 
     # Bonus for Open Graph
     og = analysis['open_graph']

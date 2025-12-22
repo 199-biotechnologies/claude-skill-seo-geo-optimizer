@@ -22,13 +22,14 @@ import re
 from pathlib import Path
 from typing import Dict, List, Set
 
-# Import analyze_content functions
+# Import shared utilities and analyze_content functions
 script_dir = Path(__file__).parent
 sys.path.insert(0, str(script_dir))
+from shared import PATTERNS
 from keyword_analyzer import extract_text_content
 
 
-# Common credentials/titles that indicate person entities
+# Common titles that indicate person entities (kept local - more specific to entity extraction)
 PERSON_TITLES = {
     'dr', 'dr.', 'doctor', 'prof', 'prof.', 'professor',
     'md', 'm.d.', 'phd', 'ph.d.', 'mba', 'esq', 'jr', 'sr',
@@ -36,13 +37,7 @@ PERSON_TITLES = {
     'rev', 'father', 'sister', 'rabbi', 'imam'
 }
 
-# Common credentials
-CREDENTIALS = {
-    'md', 'm.d.', 'phd', 'ph.d.', 'mba', 'msc', 'mph', 'dds', 'jd',
-    'rn', 'bsn', 'msn', 'dnp', 'pharmd', 'od', 'dvm', 'dpt',
-    'faad', 'faap', 'facc', 'facs', 'facep', 'faan', 'facp',
-    'cpa', 'cfa', 'pmp', 'cissp', 'pe'
-}
+# Note: For credential detection, use PATTERNS['credentials'] from shared
 
 # Common organization types
 ORG_TYPES = {
@@ -78,14 +73,10 @@ def extract_person_entities(text: str) -> List[Dict]:
         if full_name.lower() not in seen:
             seen.add(full_name.lower())
 
-            # Check for credentials after name
-            credentials = []
+            # Check for credentials after name using shared pattern
             end_pos = match.end()
             following_text = text[end_pos:end_pos+50]
-
-            for cred in CREDENTIALS:
-                if re.search(r'\b' + re.escape(cred) + r'\b', following_text, re.IGNORECASE):
-                    credentials.append(cred.upper())
+            credentials = PATTERNS['credentials'].findall(following_text)
 
             persons.append({
                 'name': name,

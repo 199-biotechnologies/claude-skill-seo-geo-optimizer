@@ -30,17 +30,14 @@ from urllib.parse import urlparse, urljoin
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 
+# Import shared configuration
+script_dir = Path(__file__).parent
+sys.path.insert(0, str(script_dir))
+from shared import INDEXNOW
 
-# IndexNow endpoints (all partners share submitted URLs)
-INDEXNOW_ENDPOINTS = {
-    'bing': 'https://www.bing.com/indexnow',
-    'yandex': 'https://yandex.com/indexnow',
-    'seznam': 'https://search.seznam.cz/indexnow',
-    'naver': 'https://searchadvisor.naver.com/indexnow'
-}
-
-# Default key file name
-DEFAULT_KEY_LENGTH = 32
+# Use shared config for endpoints and settings
+INDEXNOW_ENDPOINTS = INDEXNOW['endpoints']
+DEFAULT_KEY_LENGTH = INDEXNOW['key_length']
 
 
 def generate_key(length: int = DEFAULT_KEY_LENGTH) -> str:
@@ -75,7 +72,7 @@ def submit_single_url(
     url: str,
     key: str,
     endpoint: str = 'bing',
-    timeout: int = 10
+    timeout: int = None
 ) -> Dict:
     """
     Submit a single URL to IndexNow.
@@ -89,6 +86,9 @@ def submit_single_url(
     Returns:
         Dict with status and response info
     """
+    if timeout is None:
+        timeout = INDEXNOW['timeout']['single']
+
     if endpoint not in INDEXNOW_ENDPOINTS:
         return {
             'success': False,
@@ -151,7 +151,7 @@ def submit_batch_urls(
     key: str,
     host: str,
     endpoint: str = 'bing',
-    timeout: int = 30
+    timeout: int = None
 ) -> Dict:
     """
     Submit multiple URLs via IndexNow batch API.
@@ -168,6 +168,9 @@ def submit_batch_urls(
     Returns:
         Dict with batch submission status
     """
+    if timeout is None:
+        timeout = INDEXNOW['timeout']['batch']
+
     if endpoint not in INDEXNOW_ENDPOINTS:
         return {
             'success': False,

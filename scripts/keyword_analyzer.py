@@ -26,26 +26,11 @@ from pathlib import Path
 from typing import Dict, List, Set, Tuple
 from collections import Counter, defaultdict
 
-# Import analyze_content functions
+# Import shared utilities and analyze_content functions
 script_dir = Path(__file__).parent
 sys.path.insert(0, str(script_dir))
+from shared import STOP_WORDS, tokenize, extract_ngrams
 from analyze_content import analyze_file, extract_html_content, extract_markdown_frontmatter
-
-
-# Common stop words (English)
-STOP_WORDS = {
-    'a', 'about', 'above', 'after', 'again', 'against', 'all', 'am', 'an', 'and', 'any', 'are',
-    'as', 'at', 'be', 'because', 'been', 'before', 'being', 'below', 'between', 'both', 'but',
-    'by', 'can', 'did', 'do', 'does', 'doing', 'don', 'down', 'during', 'each', 'few', 'for',
-    'from', 'further', 'had', 'has', 'have', 'having', 'he', 'her', 'here', 'hers', 'herself',
-    'him', 'himself', 'his', 'how', 'i', 'if', 'in', 'into', 'is', 'it', 'its', 'itself', 'just',
-    'me', 'might', 'more', 'most', 'my', 'myself', 'no', 'nor', 'not', 'now', 'of', 'off', 'on',
-    'once', 'only', 'or', 'other', 'our', 'ours', 'ourselves', 'out', 'over', 'own', 's', 'same',
-    'she', 'should', 'so', 'some', 'such', 't', 'than', 'that', 'the', 'their', 'theirs', 'them',
-    'themselves', 'then', 'there', 'these', 'they', 'this', 'those', 'through', 'to', 'too',
-    'under', 'until', 'up', 'very', 'was', 'we', 'were', 'what', 'when', 'where', 'which', 'while',
-    'who', 'whom', 'why', 'will', 'with', 'would', 'you', 'your', 'yours', 'yourself', 'yourselves'
-}
 
 
 def extract_text_content(file_path: str) -> Dict:
@@ -117,30 +102,8 @@ def extract_text_content(file_path: str) -> Dict:
     }
 
 
-def tokenize_text(text: str) -> List[str]:
-    """Tokenize text into words"""
-    # Convert to lowercase
-    text = text.lower()
-
-    # Remove punctuation except hyphens in words
-    text = re.sub(r'[^\w\s-]', ' ', text)
-
-    # Split into words
-    words = text.split()
-
-    # Filter out stop words and very short words
-    words = [w for w in words if w not in STOP_WORDS and len(w) > 2]
-
-    return words
-
-
-def extract_ngrams(words: List[str], n: int) -> List[str]:
-    """Extract n-grams from words"""
-    ngrams = []
-    for i in range(len(words) - n + 1):
-        ngram = ' '.join(words[i:i+n])
-        ngrams.append(ngram)
-    return ngrams
+# tokenize_text replaced by shared.tokenize
+# extract_ngrams replaced by shared.extract_ngrams
 
 
 def extract_primary_keywords(content: Dict, top_n: int = 10) -> List[Dict]:
@@ -155,7 +118,7 @@ def extract_primary_keywords(content: Dict, top_n: int = 10) -> List[Dict]:
         ' '.join(content['text'].split()[:100])  # First 100 words
     ])
 
-    words = tokenize_text(priority_text)
+    words = tokenize(priority_text)
 
     # Count single words
     word_counts = Counter(words)
@@ -202,7 +165,7 @@ def extract_semantic_keywords(content: Dict, primary: List[Dict], top_n: int = 1
         content['text']
     ])
 
-    words = tokenize_text(semantic_text)
+    words = tokenize(semantic_text)
 
     # Remove primary keywords to avoid duplication
     primary_words = set()
@@ -246,7 +209,7 @@ def extract_longtail_keywords(content: Dict, top_n: int = 10) -> List[Dict]:
     Extract long-tail keywords (3-8 word phrases)
     Found in FAQ sections and H3 headings
     """
-    words = tokenize_text(content['text'])
+    words = tokenize(content['text'])
 
     longtail = []
 
@@ -569,7 +532,7 @@ def analyze_keywords(file_path: str, include_clusters: bool = True) -> Dict:
     # Analysis summary
     summary = {
         'total_words': content['word_count'],
-        'unique_words': len(set(tokenize_text(content['text']))),
+        'unique_words': len(set(tokenize(content['text']))),
         'primary_keywords': len(primary),
         'semantic_keywords': len(semantic),
         'longtail_keywords': len(longtail),

@@ -22,12 +22,13 @@ from pathlib import Path
 from typing import Dict, List
 import re
 
-# Import analyze_content functions
+# Import analyze_content and shared functions
 import sys
 from pathlib import Path
 script_dir = Path(__file__).parent
 sys.path.insert(0, str(script_dir))
 from analyze_content import analyze_file
+from shared import has_schema_type, LIMITS, SCORES
 
 
 def validate_meta_title(title: str) -> Dict:
@@ -249,23 +250,13 @@ def validate_schema_markup(schemas: List) -> Dict:
         score = 0
     else:
         # Check for FAQ schema
-        has_faq = any(
-            (isinstance(s, dict) and s.get('@type') == 'FAQPage') or
-            (isinstance(s, list) and any(item.get('@type') == 'FAQPage' for item in s if isinstance(item, dict)))
-            for s in schemas
-        )
-        if has_faq:
+        if has_schema_type(schemas, 'FAQPage'):
             recommendations.append("✅ FAQ schema present (highest citation probability)")
         else:
             recommendations.append("Add FAQ schema for Q&A content (35% citation boost)")
 
         # Check for Article schema
-        has_article = any(
-            (isinstance(s, dict) and s.get('@type') == 'Article') or
-            (isinstance(s, list) and any(item.get('@type') == 'Article' for item in s if isinstance(item, dict)))
-            for s in schemas
-        )
-        if has_article:
+        if has_schema_type(schemas, 'Article'):
             recommendations.append("✅ Article schema present")
 
             # Check for E-E-A-T signals
@@ -297,12 +288,7 @@ def validate_schema_markup(schemas: List) -> Dict:
             recommendations.append("Add Article schema with E-E-A-T signals")
 
         # Check for HowTo schema (if applicable)
-        has_howto = any(
-            (isinstance(s, dict) and s.get('@type') == 'HowTo') or
-            (isinstance(s, list) and any(item.get('@type') == 'HowTo' for item in s if isinstance(item, dict)))
-            for s in schemas
-        )
-        if has_howto:
+        if has_schema_type(schemas, 'HowTo'):
             recommendations.append("✅ HowTo schema present (voice search friendly)")
 
         # Validate JSON structure
