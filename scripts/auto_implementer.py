@@ -124,8 +124,8 @@ def auto_optimize(file_path: str, platform: str = 'multi', mode: str = 'full') -
         try:
             citation_data = json.loads(citation['stdout'])
             print(f"  → Found {citation_data['opportunities_count']} opportunities")
-        except:
-            pass
+        except (json.JSONDecodeError, KeyError, TypeError):
+            pass  # Citation data not in expected format
     else:
         print("  ⚠ Citation analysis skipped")
         results['steps'].append({'step': 'citation', 'status': 'skipped'})
@@ -139,8 +139,8 @@ def auto_optimize(file_path: str, platform: str = 'multi', mode: str = 'full') -
         try:
             fresh_data = json.loads(freshness['stdout'])
             print(f"  → Freshness score: {fresh_data['freshness_score']}/100")
-        except:
-            pass
+        except (json.JSONDecodeError, KeyError, TypeError):
+            pass  # Freshness data not in expected format
     else:
         print("  ⚠ Freshness check skipped")
         results['steps'].append({'step': 'freshness', 'status': 'skipped'})
