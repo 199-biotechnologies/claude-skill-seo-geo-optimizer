@@ -1,15 +1,15 @@
 ---
 name: seo-geo-optimizer
-description: Comprehensive SEO/GEO analysis toolkit for optimizing content visibility across traditional search engines (Google, Bing), AI platforms (ChatGPT, Perplexity, Claude, Gemini, Grokipedia), voice assistants (Google Assistant, Siri, Alexa), and social media (Facebook, Twitter, LinkedIn, WhatsApp, Instagram). Analyzes HTML/Markdown/JSX files for metadata completeness, schema markup, keyword optimization, entity extraction, and generates multi-format audit reports with platform-specific recommendations.
+description: Comprehensive SEO/GEO/AEO analysis toolkit for optimizing content visibility across traditional search engines (Google, Bing), AI platforms (ChatGPT, Perplexity, Claude, Gemini, Grokipedia), answer engines (Google AI Overviews, Bing Copilot, featured snippets), voice assistants (Google Assistant, Siri, Alexa), and social media (Facebook, Twitter, LinkedIn, WhatsApp, Instagram). Analyzes HTML/Markdown/JSX files for metadata completeness, schema markup, keyword optimization, entity extraction, and generates multi-format audit reports with platform-specific recommendations.
 author: Boris Djordjevic, 199 Biotechnologies
 license: MIT. Complete terms in LICENSE
 ---
 
-# SEO/GEO Optimizer Guide
+# SEO/GEO/AEO Optimizer Guide
 
 ## Overview
 
-This skill analyzes content for SEO/GEO optimization across traditional search engines and AI platforms. Use it to audit content files, generate schema markup, validate metadata, extract keywords, and produce comprehensive reports with actionable recommendations.
+This skill analyzes content for SEO/GEO/AEO optimization across traditional search engines, AI platforms, and answer engines. Use it to audit content files, generate schema markup, validate metadata, extract keywords, and produce comprehensive reports with actionable recommendations.
 
 **2025 Context**: AI-referred traffic grew 527% (Jan-May 2025). Content optimized for AI citation shows 33-40% higher visibility.
 

@@ -1,6 +1,6 @@
-# SEO/GEO Optimizer
+# SEO/GEO/AEO Optimizer
 
-Analysis and optimization toolkit for content visibility across search engines, AI platforms, voice assistants, and social media.
+Analysis and optimization toolkit for content visibility across search engines (SEO), AI platforms (GEO - Generative Engine Optimization), answer engines (AEO - Answer Engine Optimization), voice assistants, and social media.
 
 **Author**: Boris Djordjevic, [199 Biotechnologies](https://199.bio)
 **Status**: Phase 2 Complete (Content Implementation)
@@ -14,7 +14,8 @@ Analysis and optimization toolkit for content visibility across search engines, 
 This skill audits and optimizes content for discoverability across:
 
 - **Search engines**: Google, Bing (traditional SEO)
-- **AI platforms**: ChatGPT, Perplexity, Claude, Gemini, Grokipedia (GEO/LLMO)
+- **AI platforms**: ChatGPT, Perplexity, Claude, Gemini, Grokipedia (GEO - Generative Engine Optimization)
+- **Answer engines**: Google AI Overviews, Bing Copilot, featured snippets (AEO - Answer Engine Optimization)
 - **Voice assistants**: Google Assistant, Siri, Alexa
 - **Social media**: Facebook, Twitter, LinkedIn, WhatsApp, Instagram
 
