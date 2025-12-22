@@ -1,27 +1,30 @@
 #!/usr/bin/env python3
 """
-SEO/GEO Keyword Analyzer
+SEO/GEO/AEO Keyword Analyzer
 
-Extracts and analyzes keywords from content files for SEO/GEO optimization.
+Extracts and analyzes keywords from content files for SEO/GEO/AEO optimization.
 Identifies primary, semantic, LSI, long-tail, and question-based keywords.
+Includes keyword clustering for semantic grouping.
 
 Usage:
     python keyword_analyzer.py <file_path>
+    python keyword_analyzer.py <file_path> --clusters
     python keyword_analyzer.py --help
 
 Requirements:
     Python 3.7+ (stdlib only)
 
 Output:
-    JSON with categorized keywords and density analysis
+    JSON with categorized keywords, density analysis, and semantic clusters
 """
 
 import json
 import sys
 import re
+import math
 from pathlib import Path
-from typing import Dict, List, Set
-from collections import Counter
+from typing import Dict, List, Set, Tuple
+from collections import Counter, defaultdict
 
 # Import analyze_content functions
 script_dir = Path(__file__).parent
@@ -330,7 +333,217 @@ def calculate_keyword_density(content: Dict, keywords: List[Dict]) -> List[Dict]
     return keywords
 
 
-def analyze_keywords(file_path: str) -> Dict:
+# =============================================================================
+# KEYWORD CLUSTERING (TF-IDF + Cosine Similarity)
+# =============================================================================
+
+def build_vocabulary(keywords: List[str]) -> Dict[str, int]:
+    """Build vocabulary from all keyword terms"""
+    vocab = {}
+    idx = 0
+    for kw in keywords:
+        for word in kw.lower().split():
+            if word not in vocab:
+                vocab[word] = idx
+                idx += 1
+    return vocab
+
+
+def calculate_tf(keyword: str, vocab: Dict[str, int]) -> List[float]:
+    """Calculate term frequency vector for a keyword"""
+    words = keyword.lower().split()
+    word_count = Counter(words)
+    total = len(words)
+
+    vector = [0.0] * len(vocab)
+    for word, count in word_count.items():
+        if word in vocab:
+            vector[vocab[word]] = count / total if total > 0 else 0
+    return vector
+
+
+def calculate_idf(keywords: List[str], vocab: Dict[str, int]) -> List[float]:
+    """Calculate inverse document frequency for vocabulary"""
+    n_docs = len(keywords)
+    doc_freq = [0] * len(vocab)
+
+    for kw in keywords:
+        words = set(kw.lower().split())
+        for word in words:
+            if word in vocab:
+                doc_freq[vocab[word]] += 1
+
+    # IDF = log(N / (df + 1)) + 1 (smoothed)
+    idf = [math.log(n_docs / (df + 1)) + 1 for df in doc_freq]
+    return idf
+
+
+def calculate_tfidf(keyword: str, vocab: Dict[str, int], idf: List[float]) -> List[float]:
+    """Calculate TF-IDF vector for a keyword"""
+    tf = calculate_tf(keyword, vocab)
+    return [tf[i] * idf[i] for i in range(len(vocab))]
+
+
+def cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
+    """Calculate cosine similarity between two vectors"""
+    dot_product = sum(a * b for a, b in zip(vec1, vec2))
+    norm1 = math.sqrt(sum(a * a for a in vec1))
+    norm2 = math.sqrt(sum(b * b for b in vec2))
+
+    if norm1 == 0 or norm2 == 0:
+        return 0.0
+    return dot_product / (norm1 * norm2)
+
+
+def cluster_keywords(keywords: List[Dict], similarity_threshold: float = 0.3) -> List[Dict]:
+    """
+    Cluster keywords based on TF-IDF cosine similarity.
+
+    Uses a simple agglomerative approach:
+    1. Calculate TF-IDF vectors for all keywords
+    2. Group keywords with similarity above threshold
+    3. Name clusters by most frequent/important keyword
+
+    Args:
+        keywords: List of keyword dicts with 'keyword' field
+        similarity_threshold: Min similarity to group (0.0-1.0)
+
+    Returns:
+        List of cluster dicts with name, keywords, and topic
+    """
+    if not keywords:
+        return []
+
+    # Extract keyword strings
+    kw_strings = [kw['keyword'] for kw in keywords]
+
+    if len(kw_strings) < 2:
+        return [{
+            'name': kw_strings[0] if kw_strings else 'unknown',
+            'keywords': kw_strings,
+            'size': len(kw_strings),
+            'topic': 'primary'
+        }]
+
+    # Build vocabulary and calculate IDF
+    vocab = build_vocabulary(kw_strings)
+    if not vocab:
+        return []
+
+    idf = calculate_idf(kw_strings, vocab)
+
+    # Calculate TF-IDF vectors
+    vectors = [calculate_tfidf(kw, vocab, idf) for kw in kw_strings]
+
+    # Track which keywords are assigned to clusters
+    assigned = [False] * len(kw_strings)
+    clusters = []
+
+    for i, kw in enumerate(kw_strings):
+        if assigned[i]:
+            continue
+
+        # Start new cluster with this keyword
+        cluster_keywords = [kw]
+        assigned[i] = True
+
+        # Find similar keywords
+        for j in range(i + 1, len(kw_strings)):
+            if assigned[j]:
+                continue
+
+            similarity = cosine_similarity(vectors[i], vectors[j])
+            if similarity >= similarity_threshold:
+                cluster_keywords.append(kw_strings[j])
+                assigned[j] = True
+
+        # Also check word overlap for short keywords
+        for j in range(i + 1, len(kw_strings)):
+            if assigned[j]:
+                continue
+
+            words_i = set(kw.lower().split())
+            words_j = set(kw_strings[j].lower().split())
+            overlap = len(words_i & words_j)
+
+            # If significant word overlap, add to cluster
+            if overlap > 0 and overlap >= min(len(words_i), len(words_j)) * 0.5:
+                cluster_keywords.append(kw_strings[j])
+                assigned[j] = True
+
+        # Determine cluster topic based on common words
+        all_words = []
+        for ckw in cluster_keywords:
+            all_words.extend(ckw.lower().split())
+        word_freq = Counter(all_words)
+
+        # Filter out stop words for topic
+        topic_words = [w for w, _ in word_freq.most_common(3) if w not in STOP_WORDS]
+        topic = ' '.join(topic_words[:2]) if topic_words else cluster_keywords[0]
+
+        clusters.append({
+            'name': cluster_keywords[0],  # First keyword as cluster name
+            'topic': topic,
+            'keywords': cluster_keywords,
+            'size': len(cluster_keywords)
+        })
+
+    # Sort clusters by size (largest first)
+    clusters.sort(key=lambda x: x['size'], reverse=True)
+
+    return clusters
+
+
+def generate_cluster_recommendations(clusters: List[Dict]) -> List[str]:
+    """Generate SEO recommendations based on keyword clusters"""
+    recommendations = []
+
+    if not clusters:
+        recommendations.append("No keyword clusters found - add more varied content")
+        return recommendations
+
+    # Check cluster distribution
+    total_keywords = sum(c['size'] for c in clusters)
+    largest_cluster = clusters[0] if clusters else None
+
+    if largest_cluster and largest_cluster['size'] > total_keywords * 0.6:
+        recommendations.append(
+            f"Topic concentration: {largest_cluster['size']}/{total_keywords} keywords in '{largest_cluster['topic']}' cluster. "
+            "Consider diversifying content topics."
+        )
+
+    # Check for single-keyword clusters (orphan topics)
+    orphans = [c for c in clusters if c['size'] == 1]
+    if len(orphans) > len(clusters) * 0.5:
+        recommendations.append(
+            f"{len(orphans)} orphan keywords without related terms. "
+            "Add supporting content for these topics."
+        )
+
+    # Recommend content for top clusters
+    if len(clusters) >= 2:
+        top_topics = [c['topic'] for c in clusters[:3]]
+        recommendations.append(
+            f"Top topic clusters: {', '.join(top_topics)}. "
+            "Create pillar content for each cluster."
+        )
+
+    # Check cluster count
+    if len(clusters) < 3:
+        recommendations.append(
+            "Limited topic diversity. Add content covering 3-5 distinct topic clusters "
+            "for better topical authority."
+        )
+    elif len(clusters) > 10:
+        recommendations.append(
+            f"{len(clusters)} topic clusters detected. Consider consolidating into "
+            "5-7 main topic pillars for clearer site structure."
+        )
+
+    return recommendations
+
+
+def analyze_keywords(file_path: str, include_clusters: bool = True) -> Dict:
     """Main keyword analysis function"""
 
     # Extract content
@@ -372,7 +585,7 @@ def analyze_keywords(file_path: str) -> Dict:
     elif len(questions) < 3:
         recommendations.append(f"Add more FAQ content ({len(questions)} questions found, 5+ recommended)")
     else:
-        recommendations.append(f"✅ Good FAQ coverage ({len(questions)} questions found)")
+        recommendations.append(f"Good FAQ coverage ({len(questions)} questions found)")
 
     if len(longtail) < 5:
         recommendations.append("Add more long-tail keyword phrases (3-5 word combinations)")
@@ -385,7 +598,7 @@ def analyze_keywords(file_path: str) -> Dict:
         elif top_keyword['density'] < 0.5:
             recommendations.append(f"Primary keyword '{top_keyword['keyword']}' density too low ({top_keyword['density']}%), increase usage")
 
-    return {
+    result = {
         'file': file_path,
         'summary': summary,
         'primary_keywords': primary,
@@ -394,6 +607,21 @@ def analyze_keywords(file_path: str) -> Dict:
         'question_keywords': questions,
         'recommendations': recommendations
     }
+
+    # Add keyword clustering if requested
+    if include_clusters:
+        # Combine all keywords for clustering
+        all_keywords = primary + semantic + longtail
+        clusters = cluster_keywords(all_keywords, similarity_threshold=0.3)
+
+        result['keyword_clusters'] = clusters
+        result['summary']['cluster_count'] = len(clusters)
+
+        # Add cluster-specific recommendations
+        cluster_recs = generate_cluster_recommendations(clusters)
+        result['cluster_recommendations'] = cluster_recs
+
+    return result
 
 
 def main():
@@ -404,12 +632,22 @@ def main():
         print("\nExamples:")
         print("  python keyword_analyzer.py ~/project/about.html")
         print("  python keyword_analyzer.py ~/blog/post.md")
+        print("  python keyword_analyzer.py ~/blog/post.md --clusters")
+        print("  python keyword_analyzer.py ~/blog/post.md --no-clusters")
+        print("\nOptions:")
+        print("  --clusters     Include keyword clustering (default)")
+        print("  --no-clusters  Disable keyword clustering for faster analysis")
         sys.exit(0 if len(sys.argv) >= 2 else 1)
 
     file_path = sys.argv[1]
 
+    # Parse options
+    include_clusters = True
+    if '--no-clusters' in sys.argv:
+        include_clusters = False
+
     try:
-        analysis = analyze_keywords(file_path)
+        analysis = analyze_keywords(file_path, include_clusters=include_clusters)
 
         # Pretty print JSON
         print(json.dumps(analysis, indent=2, ensure_ascii=False))

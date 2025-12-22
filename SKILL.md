@@ -85,16 +85,21 @@ python scripts/metadata_validator.py ~/project/page.html
 
 ### 2. Keyword Analysis
 
-Extract primary, semantic, long-tail, and question-based keywords.
+Extract primary, semantic, long-tail, and question-based keywords with semantic clustering.
 
 ```bash
+# Full analysis with clustering
 python scripts/keyword_analyzer.py ~/project/page.html
+
+# Fast mode without clustering
+python scripts/keyword_analyzer.py ~/project/page.html --no-clusters
 ```
 
 **Optimization Tips**:
 - Primary keyword density: 1-3% (avoid stuffing)
 - Add 3+ question keywords for voice search
 - Long-tail phrases (3-4 words) for specificity
+- Use keyword clusters to build pillar content strategy
 
 ### 3. Entity Extraction
 
@@ -125,6 +130,26 @@ python scripts/schema_generator.py faq \
 - Answers ≤29 words for voice assistants
 - Natural language questions
 - Direct, specific answers
+
+### 5. IndexNow Instant Indexing
+
+Submit URLs directly to search engines for immediate indexing (Bing, Yandex, Seznam, Naver).
+
+```bash
+# Generate key (one-time setup)
+python scripts/indexnow_submit.py --generate-key --output ./public
+
+# Submit URL after publishing
+python scripts/indexnow_submit.py https://yoursite.com/new-page --key YOUR_KEY
+
+# Batch submit
+python scripts/indexnow_submit.py --batch urls.txt --key YOUR_KEY
+```
+
+**GEO Impact**:
+- Bing index feeds AI platforms (ChatGPT, Perplexity, Claude)
+- Content indexed in minutes vs weeks
+- 3.2x citation boost for fresh content (<30 days)
 
 ## Platform Optimization
 
@@ -260,6 +285,11 @@ For detailed guides and templates, see the `reference/` directory:
 
 **Generation**:
 - `schema_generator.py <type> [options]` - Generate JSON-LD schemas
+
+**Indexing**:
+- `indexnow_submit.py <url> --key KEY` - Submit URL to search engines instantly
+- `indexnow_submit.py --batch <file> --key KEY` - Batch submit URLs
+- `indexnow_submit.py --generate-key` - Generate IndexNow key
 
 **Supported Files**: HTML, Markdown, React/JSX
 **Output Formats**: JSON, Markdown, HTML

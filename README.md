@@ -86,6 +86,43 @@ python scripts/freshness_monitor.py page.html
 python scripts/citation_enhancer.py page.html
 ```
 
+### Keyword Clustering
+
+Group related keywords into semantic clusters for topical authority:
+
+```bash
+# Analyze with keyword clusters (default)
+python scripts/keyword_analyzer.py ~/project/page.html
+
+# Fast mode without clustering
+python scripts/keyword_analyzer.py ~/project/page.html --no-clusters
+```
+
+Output includes:
+- Semantic clusters grouped by TF-IDF similarity
+- Topic identification for each cluster
+- Recommendations for pillar content strategy
+
+### IndexNow Instant Indexing
+
+Submit URLs directly to search engines for immediate indexing (critical for GEO/AEO):
+
+```bash
+# Generate IndexNow key
+python scripts/indexnow_submit.py --generate-key --output ./public
+
+# Submit single URL
+python scripts/indexnow_submit.py https://example.com/new-page --key YOUR_KEY
+
+# Batch submit from file
+python scripts/indexnow_submit.py --batch urls.txt --key YOUR_KEY
+```
+
+Benefits for GEO:
+- Bing index feeds AI platforms (ChatGPT, Perplexity, Claude)
+- Fresh content indexed in minutes vs weeks
+- 3.2x citation boost for content <30 days old
+
 ### Generate Schema Markup
 
 ```bash
@@ -131,6 +168,7 @@ Six Python scripts implement optimizations:
 | `freshness_monitor.py` | Content age tracking | 3.2x citations when fresh |
 | `citation_enhancer.py` | Statistics, quotation opportunities | +41% and +28% impact |
 | `auto_implementer.py` | Full pipeline orchestration | Complete automation |
+| `indexnow_submit.py` | Instant search engine indexing | Minutes vs weeks |
 
 ### Phase 3: Advanced Features (Planned)
 
@@ -166,6 +204,8 @@ Five keyword types extracted:
 3. **LSI**: Co-occurring terms (natural language)
 4. **Long-tail**: 3-8 word phrases (FAQ, H3)
 5. **Question**: Who/what/where/when/why/how (FAQ schema)
+
+**Keyword Clustering**: TF-IDF + cosine similarity groups keywords into semantic clusters for topical authority and pillar content strategy.
 
 ### Schema Generation
 
@@ -317,13 +357,14 @@ Located in `profiles/` directory:
 
 - `analyze_content.py`: <1 second
 - `metadata_validator.py`: <1 second
-- `keyword_analyzer.py`: <2 seconds
+- `keyword_analyzer.py`: <2 seconds (with clustering)
 - `entity_extractor.py`: <1 second
 - `schema_generator.py`: <1 second
 - `audit_report.py`: 3-5 seconds
 - `auto_implementer.py`: 10-15 seconds (full pipeline)
+- `indexnow_submit.py`: 1-3 seconds (network dependent)
 
-All scripts: Python stdlib only, no external dependencies, offline operation.
+All scripts: Python stdlib only, no external dependencies, offline operation (except IndexNow which requires network).
 
 ---
 
