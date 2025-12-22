@@ -1,6 +1,7 @@
 ---
 name: seo-geo-optimizer
 description: Comprehensive SEO/GEO analysis toolkit for optimizing content visibility across traditional search engines (Google, Bing), AI platforms (ChatGPT, Perplexity, Claude, Gemini, Grokipedia), voice assistants (Google Assistant, Siri, Alexa), and social media (Facebook, Twitter, LinkedIn, WhatsApp, Instagram). Analyzes HTML/Markdown/JSX files for metadata completeness, schema markup, keyword optimization, entity extraction, and generates multi-format audit reports with platform-specific recommendations.
+author: Boris Djordjevic, 199 Biotechnologies
 license: MIT. Complete terms in LICENSE
 ---
 

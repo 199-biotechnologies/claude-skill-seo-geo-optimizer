@@ -2,6 +2,7 @@
 
 Analysis and optimization toolkit for content visibility across search engines, AI platforms, voice assistants, and social media.
 
+**Author**: Boris Djordjevic, [199 Biotechnologies](https://199.bio)
 **Status**: Phase 2 Complete (Content Implementation)
 **License**: MIT
 **Repository**: [github.com/199-biotechnologies/claude-skill-seo-geo-optimizer](https://github.com/199-biotechnologies/claude-skill-seo-geo-optimizer)
@@ -394,4 +395,4 @@ Report issues: [GitHub Issues](https://github.com/199-biotechnologies/claude-ski
 
 MIT License - See LICENSE file for complete terms.
 
-Copyright (c) 2025 199 Biotechnologies
+Copyright (c) 2025 Boris Djordjevic, 199 Biotechnologies
