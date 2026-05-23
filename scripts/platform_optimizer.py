@@ -71,6 +71,16 @@ def optimize_for_chatgpt(html_content: str, config: Dict) -> tuple[str, List[str
     
     # 3. Add Article schema if not present
     if 'schema.org/Article' not in optimized:
+        # Prefer the caller-supplied publication date; fall back to today
+        # but flag it, since fabricating a datePublished poisons E-E-A-T.
+        date_published = config.get('date_published')
+        if not date_published:
+            date_published = today_iso
+            changes.append(
+                "WARN: datePublished defaulted to today (no date_published in config); "
+                "set config['date_published'] to the real publication date"
+            )
+
         article_schema = {
             "@context": "https://schema.org",
             "@type": "Article",
@@ -80,8 +90,8 @@ def optimize_for_chatgpt(html_content: str, config: Dict) -> tuple[str, List[str
                 "name": config.get('author', {}).get('name', ''),
                 "honorificSuffix": config.get('author', {}).get('credentials', '')
             },
-            "datePublished": datetime.now().isoformat(),
-            "dateModified": datetime.now().isoformat()
+            "datePublished": date_published,
+            "dateModified": today_iso
         }
         
         schema_tag = f'\n<script type="application/ld+json">\n{json.dumps(article_schema, indent=2)}\n</script>\n'
@@ -361,12 +371,22 @@ def optimize_for_grokipedia(html_content: str, config: Dict) -> tuple[str, List[
 
     # 4. Add structured changelog schema (machine-readable versioning)
     if config.get('add_changelog_schema'):
+        # Same datePublished honesty rule as the Article block above.
+        now_iso = datetime.now().isoformat()
+        date_published = config.get('date_published')
+        if not date_published:
+            date_published = now_iso
+            changes.append(
+                "WARN: changelog datePublished defaulted to today; "
+                "set config['date_published'] for accurate provenance"
+            )
+
         changelog_schema = {
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": config.get('title', 'Article'),
-            "datePublished": datetime.now().isoformat(),
-            "dateModified": datetime.now().isoformat(),
+            "datePublished": date_published,
+            "dateModified": now_iso,
             "version": "1.0",
             "isBasedOn": config.get('source_url', '') if config.get('wikipedia_derived') else None
         }
