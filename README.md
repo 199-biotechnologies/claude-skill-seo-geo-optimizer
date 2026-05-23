@@ -13,25 +13,27 @@ Analysis and optimization toolkit for content visibility across search engines (
 
 This skill audits and optimizes content for discoverability across:
 
-- **Search engines**: Google, Bing (traditional SEO)
-- **AI platforms**: ChatGPT, Perplexity, Claude, Gemini, Grokipedia (GEO - Generative Engine Optimization)
-- **Answer engines**: Google AI Overviews, Bing Copilot, featured snippets (AEO - Answer Engine Optimization)
+- **Search engines**: Google, Bing, Brave Search (traditional SEO)
+- **AI platforms**: ChatGPT (Search, Atlas browser), Perplexity, Claude, Gemini, Brave Leo (GEO - Generative Engine Optimization)
+- **Answer engines**: Google AI Overviews (Gemini 3, default Jan 2026), Google AI Mode (separate citation surface), Bing Copilot, featured snippets (AEO - Answer Engine Optimization)
 - **Voice assistants**: Google Assistant, Siri, Alexa
-- **Social media**: Facebook, Twitter, LinkedIn, WhatsApp, Instagram
+- **Social media**: Facebook, X (Twitter), LinkedIn, WhatsApp, Instagram, Bluesky, Threads, Mastodon
 
 Supports HTML, Markdown, and React/JSX files.
 
 ---
 
-## Key Statistics (2025)
+## What Shifted (Nov 2025 → May 2026)
 
-AI-referred traffic grew 527% between January and May 2025. Content optimized for AI citation shows 33-40% higher visibility. Key findings:
+- **Google AI Overviews swapped to Gemini 3 on 27 Jan 2026.** ~42% of previously cited domains were replaced; ~88% of AI Overview answers now cite 3+ sources (SE Ranking).
+- **Google AI Mode is a separate citation surface from AI Overviews** — URL overlap ~14%. It uses query fan-out, so each H2 needs to stand alone as an answerable sub-query.
+- **Google retired FAQ rich results in Search on 7 May 2026.** FAQ schema still earns its place for non-Google engines and as a structural signal for AI platforms.
+- **ChatGPT's 7 May 2026 update gave referral links more prominence.** Similarweb measured a step-change in traffic and ~60% of it now lands on brand homepages — make the homepage answer "what does this site do" cleanly.
+- **schema.org v30.0 (19 Mar 2026)** added `Credential` and `Error`; deprecated `Attorney` in favour of `LegalService`.
+- **Schema-as-a-GEO-lever has been demoted.** An Ahrefs test of 1,885 pages found ~+2.4% AI-Mode citation lift from adding JSON-LD — noise. Keep schema for entity / rich-result purposes; pair it with original data.
+- **llms.txt** is now a Lighthouse 13.3 "Agentic Browsing" audit, but no major AI crawler consumes it in production (as of May 2026). Useful for agent-facing developer docs; not a citation lever.
 
-- 40.58% of AI citations come from top 10 SERP results
-- Content with author credentials: +40% citation probability
-- Featured snippets: 40.7% of voice search answers
-- Statistics addition: +41% citation improvement
-- Freshness (<30 days): 3.2x more citations
+See `reference/statistics-2026.md` for sources and the full review pass.
 
 ---
 
