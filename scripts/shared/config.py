@@ -131,8 +131,9 @@ PATTERNS: Dict[str, Pattern] = {
         re.IGNORECASE
     ),
 
-    # Year mentions (for freshness)
-    'year': re.compile(r'\b(20[0-2]\d)\b'),
+    # Year mentions (for freshness). Wide range so freshness checks don't go
+    # silent at decade boundaries.
+    'year': re.compile(r'\b(19\d{2}|20\d{2}|21\d{2})\b'),
 
     # Author patterns
     'author': re.compile(r'(?:author|by\s+[A-Z]|written\s+by)', re.IGNORECASE),
