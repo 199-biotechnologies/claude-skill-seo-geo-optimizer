@@ -26,7 +26,7 @@ import secrets
 import string
 from pathlib import Path
 from typing import Dict, List, Optional
-from urllib.parse import urlparse, urljoin
+from urllib.parse import urlparse, urljoin, quote
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 
@@ -100,7 +100,9 @@ def submit_single_url(
 
     # Build IndexNow URL
     # Format: https://www.bing.com/indexnow?url=URL&key=KEY
-    indexnow_url = f"{INDEXNOW_ENDPOINTS[endpoint]}?url={url}&key={key}"
+    # Percent-encode the URL so query, fragment, and reserved characters
+    # in the target URL don't corrupt the IndexNow request.
+    indexnow_url = f"{INDEXNOW_ENDPOINTS[endpoint]}?url={quote(url, safe='')}&key={key}"
 
     try:
         request = Request(
