@@ -17,8 +17,14 @@ Research: Statistics Addition (+41%), Quotation Addition (+28%)
 import re
 import json
 from html.parser import HTMLParser
+from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 import sys
+
+# Use the shared text utilities so word-counting stays consistent
+# with the rest of the audit pipeline.
+sys.path.insert(0, str(Path(__file__).parent))
+from shared.text_utils import count_words
 
 class ContentStructureParser(HTMLParser):
     """Parse HTML to extract structural elements"""
@@ -64,10 +70,6 @@ class ContentStructureParser(HTMLParser):
     def handle_data(self, data):
         if self.current_tag:
             self.current_text += data
-
-def count_words(text: str) -> int:
-    """Count words in text"""
-    return len(re.findall(r'\b\w+\b', text))
 
 def optimize_paragraph_length(text: str, target_max: int = 100, target_min: int = 60) -> List[str]:
     """
