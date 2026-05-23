@@ -1,41 +1,38 @@
-# Platform-Specific Optimization Strategies (2025)
+# Platform-Specific Optimization Strategies
 
-**Last Updated**: November 11, 2025
-**Version**: 1.0
-**Research Sources**: 2025 industry studies, platform documentation, empirical testing
+**Last reviewed**: May 23, 2026
 
----
+> Numerical lifts that previously lived in this section
+> (+35%/+40% citation boosts, 527% traffic growth, etc.) have been
+> removed. They came from a single unreplicated white paper and the
+> 2026 follow-up studies couldn't reproduce them. The platform
+> guidance below — depth for ChatGPT, freshness for Perplexity,
+> primary sources for Claude — has held up.
+>
+> For sourced numbers on what's actually shifted, see
+> `reference/statistics-2026.md`.
 
-## Overview: The New Search Landscape
+## Overview: The New Search Landscape (May 2026)
 
-### Market Dynamics (2025)
+The big structural shifts since this guide was first written:
 
-**AI Search Traffic Growth**:
-- 📈 **527% increase** in AI-referred sessions (January-May 2025)
-- 📈 **1,200% growth** in generative AI traffic (July 2024-February 2025)
-- 📉 **25% drop** in traditional search volume predicted by 2026
-- 📉 **50% drop** in traditional search volume predicted by 2028
-
-**Platform Market Share**:
-- **ChatGPT**: 40-60% of all LLM traffic (800M+ weekly active users as of Oct 2025)
-- **Perplexity**: 0.073%+ specialized traffic (doubling quarterly)
-- **Claude**: Growing rapidly, prioritizes credible sources
-- **Gemini**: Google integration, 29.2% adoption rate (up from 14%)
-- **Traditional Search**: Google, Bing (declining but still dominant)
-
-### Citation Probability Statistics
-
-**SERP Position Impact**:
-- 🎯 **40.58%** of AI citations come from top 10 SERP results
-- 🎯 **33.07%** citation probability for #1 ranking position
-- 🎯 **+30-40%** boost with proper optimization (E-E-A-T, schema, author credentials)
-
-**Optimization ROI**:
-- TL;DR in first 60 words: **+35% citation probability**
-- Author credentials (MD, PhD): **+40% citation probability**
-- FAQ schema markup: **Highest citation probability** across all platforms
-- Article schema with E-E-A-T: **+40% citation boost**
-- Proper heading structure (H2→H3→bullets): **+40% scan-ability**
+- **Google AI Overviews swapped to Gemini 3 on 27 Jan 2026.** Per SE
+  Ranking's 100k-keyword sample, ~42% of cited domains were
+  replaced; ~88% of answers now cite ≥3 sources.
+- **Google AI Mode is a separate citation surface.** URL overlap
+  with AI Overviews is ~14%. AI Mode fans out into multiple
+  sub-queries, so each H2 needs to stand alone as an answer.
+- **ChatGPT 7 May 2026 update** made referral links more visible;
+  ~60% of resulting traffic now lands on brand homepages
+  (Similarweb). Homepages need to clearly state what the site does.
+- **Google retired FAQ rich results in Search on 7 May 2026.** Keep
+  FAQ schema for Bing, Brave, DuckDuckGo, and as a structural
+  signal for AI platforms.
+- **Brave Search has become an interesting third-party index.** In
+  one cross-platform study, Brave visibility predicted Claude
+  citation roughly as well as Google ranking did.
+- **Grokipedia lost most search visibility** by mid-Feb 2026.
+  Demoted from primary platform to optional in this skill.
 
 ---
 
@@ -202,18 +199,18 @@ Longevity biomarkers like hsCRP (<0.5 mg/L), fasting glucose (70-85 mg/dL), and 
 **Example: Optimized for Perplexity**
 
 ```markdown
-# AI Search Optimization in 2025: Complete Guide
-**Last Updated**: November 11, 2025 (3 hours ago)
+# AI Search Optimization in 2026: Complete Guide
+**Last Updated**: May 23, 2026 (3 hours ago)
 **Author**: Alex Martinez, SEO Specialist
 
 ## TL;DR
-AI search traffic grew 527% in 2025[1]. Optimize with FAQ schema, author credentials, and platform-specific strategies for ChatGPT (depth), Perplexity (freshness), Claude (accuracy).
+After Google AI Overviews swapped to Gemini 3 in January 2026, ~42% of previously cited domains were replaced[1]. Optimize for the new landscape with passage-level extractability for Perplexity, named-author credentials for ChatGPT, and primary-source citations for Claude.
 
 [Fresh, specialized content with inline citations...]
 
 ## Sources
-[1] [Superprompt.com AI Traffic Study](https://superprompt.com/blog/ai-traffic-2025) - October 2025
-[2] [Search Engine Land GEO Report](https://searchengineland.com/geo-2025) - November 2025
+[1] [SE Ranking — Gemini 3 Impact on AI Overviews](https://seranking.com/blog/gemini-3-impact-on-ai-overviews/) - February 2026
+[2] arXiv 2507 study (366k+ Perplexity citations) — passage-level retrieval, July 2025
 ```
 
 **Corresponding Schema**:
@@ -796,13 +793,13 @@ This work is licensed under CC-BY-4.0. Attribution: 199 Biotechnologies (2025)
 - Gemini citation rate: 15-25%
 
 **Month 4-6 (Advanced)**:
-- Multi-platform citations: 3+ platforms
-- Traffic from AI: 527%+ growth trajectory
-- Featured snippets: 40%+ for key queries
-- Voice search answers: Top 3 results
+- Multi-platform citations: cited by 3+ AI platforms for primary queries
+- AI Mode citation surface: distinct from AI Overviews (~14% URL overlap)
+- Featured snippets / quick answers: top 3 for key queries
+- Voice search answers: top 3 results
 
 ---
 
-**Last Updated**: November 11, 2025
+**Last Updated**: May 23, 2026
 **Next Review**: Quarterly (platforms evolve rapidly)
 **Feedback**: Report outdated information to 199 Biotechnologies

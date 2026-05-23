@@ -1,22 +1,20 @@
 # AI Citation Optimization Guide (GEO/LLMO)
 
-**Last Updated**: November 11, 2025
-**Version**: 1.0
+**Last reviewed**: May 23, 2026
 **Focus**: ChatGPT, Perplexity, Claude, Gemini citation probability
 
----
+> For current numbers and what shifted between Nov 2025 and May 2026,
+> see `reference/statistics-2026.md`. The tactics below — TL;DR up
+> top, named credentials, primary-source citations, freshness, and
+> structured content — held up across the AgenticGEO and "Citation
+> Selection vs Absorption" studies in 2026. Specific percentage
+> lifts that previously lived here have been removed because they
+> trace back to a single unreplicated white paper; they kept rotting
+> in the doc whenever readers looked them up.
 
-##Overview: The Citation Probability Formula
+## Overview: The Citation Probability Formula
 
 **AI Citation =** `Content Structure × E-E-A-T Signals × Technical Implementation × Freshness`
-
-### Key Statistics (2025)
-- 📈 **527% growth** in AI-referred traffic (Jan-May 2025)
-- 🎯 **40.58%** of AI citations from top 10 SERP results
-- 🎯 **33.07%** citation probability for #1 ranking
-- ✅ **+35%** boost with TL;DR in first 60 words
-- ✅ **+40%** boost with author credentials (MD, PhD)
-- ✅ **+40%** boost with proper heading hierarchy
 
 ---
 
@@ -40,10 +38,11 @@ Direct Answer (20-30 words) + Key Context (20-30 words) = 40-60 words total
 **Topic**: What is GEO?
 ```markdown
 **TL;DR**: GEO (Generative Engine Optimization) is the practice of optimizing
-content for AI search engines like ChatGPT, Perplexity, and Claude to increase
-citation probability in AI-generated responses. It focuses on E-E-A-T signals,
-structured data, and platform-specific preferences, achieving 527% traffic growth
-in early 2025.
+content for AI search engines like ChatGPT, Perplexity, Claude, and Google's
+AI Overviews / AI Mode to increase citation probability in AI-generated
+responses. It focuses on E-E-A-T signals, primary-source citations,
+freshness, and platform-specific preferences such as passage-level
+extractability for Perplexity and named-author credentials for ChatGPT.
 ```
 **Word count**: 48 words ✓
 
@@ -160,9 +159,9 @@ Data from [organization] reveals [statistic] ([time period]).
 ```
 
 **Examples**:
-- "AI traffic grew 527% from January to May 2025 (Superprompt.com study)."
-- "Citation probability increases 40% with author credentials (2025 analysis)."
-- "80% of voice answers come from top 3 SERP results (Google data)."
+- "After Gemini 3 became the default model for Google AI Overviews in January 2026, SE Ranking measured 42% of previously cited domains being replaced across a 100k-keyword sample."
+- "Ahrefs tested 1,885 pages that added JSON-LD schema and measured ~+2.4% lift on AI Mode citations — directional only."
+- "Per the 2025 366k-citation Perplexity study (arXiv), the engine selects at the passage level rather than the page level."
 
 ---
 

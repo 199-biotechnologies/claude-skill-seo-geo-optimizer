@@ -123,7 +123,7 @@ python scripts/indexnow_submit.py --batch urls.txt --key YOUR_KEY
 Benefits for GEO:
 - Bing index feeds AI platforms (ChatGPT, Perplexity, Claude)
 - Fresh content indexed in minutes vs weeks
-- 3.2x citation boost for content <30 days old
+- Fresh content (<30 days old) is reliably preferred by Perplexity and the post-Gemini-3 AI Overviews
 
 ### Generate Schema Markup
 
@@ -167,7 +167,7 @@ Six Python scripts implement optimizations:
 | `content_optimizer.py` | Meta descriptions, FAQ, data tables | Structure optimization |
 | `platform_optimizer.py` | ChatGPT, Perplexity, Claude, Gemini | Platform-specific |
 | `voice_optimizer.py` | Speakable schema, featured snippets | Voice search ready |
-| `freshness_monitor.py` | Content age tracking | 3.2x citations when fresh |
+| `freshness_monitor.py` | Content age tracking | Strong Perplexity / AI-Mode preference when <30 days |
 | `citation_enhancer.py` | Statistics, quotation opportunities | +41% and +28% impact |
 | `auto_implementer.py` | Full pipeline orchestration | Complete automation |
 | `indexnow_submit.py` | Instant search engine indexing | Minutes vs weeks |
@@ -230,7 +230,7 @@ JSON-LD schemas with validation:
 - Answer-first structure
 
 **Perplexity** (Freshness-focused):
-- Content updated within 30 days (3.2x citations)
+- Content updated within 30 days (Perplexity / AI-Mode preference)
 - Inline citations with [1], [2] format
 - H2→H3→bullets structure (40% more citations)
 - Update frequency: 2-3 days (aggressive) or 90 days (minimum)
@@ -335,13 +335,12 @@ Located in `profiles/` directory:
 
 **perplexity_fresh.json**:
 - Target: Perplexity visibility
-- Focus: Freshness, inline citations
+- Focus: Freshness, inline citations, passage-level extractability
 - Update: Every 2-3 days
-- Expected: 3.2x citations
 
 **multi_platform.json**:
 - Target: Balanced optimization
-- Platforms: ChatGPT, Perplexity, Claude, Gemini, Grokipedia
+- Platforms: ChatGPT, Perplexity, Claude, Gemini (Grokipedia optional)
 - Word count: 1200-2000
 - Update: Monthly
 
@@ -406,22 +405,32 @@ All scripts: Python stdlib only, no external dependencies, offline operation (ex
 
 ## Research Foundation
 
-Based on 2025 analysis:
-- 41M AI search results analyzed
-- 680M citations across platforms
-- 527% AI traffic growth (Jan-May 2025)
+The Princeton / Georgia Tech "Generative Engine Optimization" tactics
+(statistics addition, named-authority quotation, fluency, citing
+sources, authoritative phrasing) have held up across the 2026
+follow-up work — notably AgenticGEO (arXiv) and the "Citation
+Selection vs Absorption" study. Specific percentage lifts from the
+original paper are kept off this README on purpose: the 2026 studies
+couldn't reproduce them, even though the direction of each tactic
+still holds.
 
-Key findings implemented:
-- Statistics Addition: +41% improvement (Princeton/Georgia Tech)
-- Quotation Addition: +28% improvement
-- Freshness (<30 days): 3.2x citations (Ahrefs study)
-- Author credentials: +40% citation probability
-- H2→H3→bullets structure: 40% more citations
+What the 2026 studies did add:
+- Position bias is strong — material in the first ~30% of a page
+  picks up a disproportionate share of AI citations (iPullRank).
+- Perplexity selects at the passage / sub-document level, not the
+  page level (366k-citation arXiv study, July 2025).
+- Schema-as-a-GEO-lever was overstated — Ahrefs measured ~+2.4%
+  AI Mode lift from adding JSON-LD across 1,885 pages.
+- Brave Search visibility correlates with Claude citation more
+  closely than Google ranking does.
+
+For sourced numbers and what changed in the last six months, see
+`reference/statistics-2026.md`.
 - Featured snippets: 40.7% of voice answers
 
 Platform citation patterns:
 - ChatGPT: Wikipedia (1.3M citations), G2 (196K), Forbes (181K)
-- Perplexity: Update frequency critical (3.2x citations when fresh)
+- Perplexity: Update frequency critical (passage-level retrieval prefers fresh sections)
 - Claude: 91.2% correct source attribution (Q2 2025)
 - AI Overviews: 13.14% of queries (March 2025), up from 6.49% (January 2025)
 
