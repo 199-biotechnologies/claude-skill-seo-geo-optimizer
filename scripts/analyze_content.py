@@ -97,6 +97,61 @@ class MetaTagsParser(HTMLParser):
             self.script_content += data
 
 
+def analyze_position_bias(text: str) -> Dict:
+    """
+    Check whether high-leverage content sits in the first ~30% of the body.
+
+    Why: 2026 studies (iPullRank, AIBoost) measured that the first ~30%
+    of a page captures ~44% of AI-search citations. If the TL;DR, the
+    first statistic, or the first credential mention land below that
+    mark, AI platforms see less of the signal.
+    """
+    words = text.split()
+    total = len(words)
+    if total == 0:
+        return {'total_words': 0, 'warnings': []}
+
+    def word_offset(pattern) -> Optional[int]:
+        m = pattern.search(text)
+        if not m:
+            return None
+        return len(text[:m.start()].split())
+
+    def pct(offset: Optional[int]) -> Optional[float]:
+        if offset is None:
+            return None
+        return round(100 * offset / total, 1)
+
+    tldr_off = word_offset(PATTERNS['tldr'])
+    stat_off = word_offset(PATTERNS['statistics'])
+    cred_off = word_offset(PATTERNS['credentials'])
+
+    warnings = []
+    if tldr_off is not None and pct(tldr_off) > 10:
+        warnings.append(
+            f"TL;DR appears at {pct(tldr_off)}% of body; move it into the "
+            f"first 10% so AI platforms catch it in the citation window"
+        )
+    if stat_off is not None and pct(stat_off) > 30:
+        warnings.append(
+            f"First statistic appears at {pct(stat_off)}% of body; front-load "
+            f"citation-worthy numbers in the first 30%"
+        )
+    elif stat_off is None and total >= 200:
+        warnings.append(
+            "No statistics detected; named numerical claims are a strong "
+            "AI-citation signal (Princeton GEO tactic, replicated in 2026 studies)"
+        )
+
+    return {
+        'total_words': total,
+        'tldr_position_pct': pct(tldr_off),
+        'first_stat_position_pct': pct(stat_off),
+        'first_credential_position_pct': pct(cred_off),
+        'warnings': warnings,
+    }
+
+
 def extract_html_content(html: str) -> Dict:
     """Extract content elements from HTML"""
 
@@ -177,13 +232,14 @@ def analyze_html_file(file_path: str) -> Dict:
         'twitter_cards': parser.twitter_cards,
         'schema': parser.json_ld_schemas,
         'content': content_analysis,
+        'position_bias': analyze_position_bias(content_analysis['full_text']),
         'issues': [],
         'recommendations': [],
         'score': 0
     }
 
     # Validate and score
-    analysis['issues'] = validate_metadata(analysis)
+    analysis['issues'] = validate_metadata(analysis) + analysis['position_bias']['warnings']
     analysis['recommendations'] = generate_recommendations(analysis)
     analysis['score'] = calculate_seo_score(analysis)
 
@@ -288,13 +344,14 @@ def analyze_markdown_file(file_path: str) -> Dict:
             'full_text': ' '.join(words)
         },
         'frontmatter': frontmatter,
+        'position_bias': analyze_position_bias(' '.join(words)),
         'issues': [],
         'recommendations': [],
         'score': 0
     }
 
     # Validate and score
-    analysis['issues'] = validate_metadata(analysis)
+    analysis['issues'] = validate_metadata(analysis) + analysis['position_bias']['warnings']
     analysis['recommendations'] = generate_recommendations(analysis)
     analysis['score'] = calculate_seo_score(analysis)
 
@@ -372,13 +429,14 @@ def analyze_jsx_file(file_path: str) -> Dict:
             'first_60_words': first_60_words,
             'full_text': text_content
         },
+        'position_bias': analyze_position_bias(text_content),
         'issues': [],
         'recommendations': [],
         'score': 0
     }
 
     # Validate and score
-    analysis['issues'] = validate_metadata(analysis)
+    analysis['issues'] = validate_metadata(analysis) + analysis['position_bias']['warnings']
     analysis['recommendations'] = generate_recommendations(analysis)
     analysis['score'] = calculate_seo_score(analysis)
 
