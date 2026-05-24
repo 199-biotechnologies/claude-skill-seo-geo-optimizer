@@ -3,7 +3,8 @@
 IndexNow URL Submission Tool
 
 Submit URLs to search engines instantly via the IndexNow protocol.
-Supports Bing, Yandex, Seznam, and Naver (all IndexNow partners).
+Supports the current IndexNow participants: Bing, Yandex, Seznam,
+Naver, Yep, Internet Archive, and Amazon Bot.
 
 No API key registration required - just generate a key and host it.
 

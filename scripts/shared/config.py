@@ -191,11 +191,18 @@ STOP_WORDS = {
 # =============================================================================
 
 INDEXNOW = {
+    # Endpoints sourced from indexnow.org/searchengines.json — each engine's
+    # `meta.json` resolves to the `api` URL below. Refresh by running:
+    #   curl -s https://www.indexnow.org/searchengines.json
+    # and chasing each `meta.json` for its current `api` field.
     'endpoints': {
         'bing': 'https://www.bing.com/indexnow',
         'yandex': 'https://yandex.com/indexnow',
         'seznam': 'https://search.seznam.cz/indexnow',
         'naver': 'https://searchadvisor.naver.com/indexnow',
+        'yep': 'https://indexnow.yep.com/indexnow',
+        'internetarchive': 'https://internetarchive.indexnow.org/indexnow',
+        'amazonbot': 'https://indexnow.amazonbot.amazon/indexnow',
     },
     'key_length': 32,
     'max_batch_urls': 10000,
