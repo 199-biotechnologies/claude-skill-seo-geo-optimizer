@@ -538,7 +538,7 @@ def generate_recommendations(analysis: Dict) -> List[str]:
     if not has_speakable:
         recommendations.append("Add Speakable schema for voice search optimization (Google Assistant, Siri, Alexa)")
 
-    if content['has_faq'] and not has_faq_schema:
+    if content['has_faq'] and not has_schema_type(schemas, 'FAQPage'):
         recommendations.append("Add FAQ section with 29-word answers for voice search (80% of answers from top 3)")
 
     # Social preview optimization
